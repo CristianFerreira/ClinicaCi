@@ -12,17 +12,17 @@
 				<p:menuitem value="" />
 			</p:submenu>
 
-			<p:submenu label="Cadastros">
-				<p:menuitem value="Clientes" />
-				<p:menuitem value="Funcionario" />			
+			<p:submenu label="Pacientes">
 			</p:submenu>
-			
-			<p:submenu label="Login"></p:submenu>
 
-			<p:submenu label="Ajuda">
-				<p:menuitem value="Sobre" />
-			</p:submenu>
+			<f:facet name="options">
+				<p:inputText style="margin-right:10px" placeholder="Usuário" />
+				<p:inputText style="margin-right:10px" placeholder="Senha" />
+				<p:commandButton type="button" value="Login" icon="ui-icon-extlink" style="margin-right:5px" />
+			</f:facet>
+			
 		</p:menubar>
 	</h:form>
+
 
 </ui:composition>

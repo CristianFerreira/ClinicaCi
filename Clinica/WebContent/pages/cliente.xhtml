@@ -12,20 +12,65 @@
 	</ui:define>
 
 	<ui:define name="conteudo">
-		<p:dataTable emptyMessage="Nenhum registro encontrado."
-			value="#{MBCliente.itens}" var="item">
+		<h:form>
+			<p:dataTable emptyMessage="Nenhum registro encontrado."
+				value="#{MBCliente.itens}" var="item" paginator="true" rows="20">
 
-			<p:column headerText="Código">
-				<h:outputText value="#{item.codigo}" />
-			</p:column>
+				<f:facet name="header">
+					Tabela de Pacientes
+				</f:facet>
+				<p:column headerText="Código" sortBy="#{item.codigo}"
+					filterBy="#{item.codigo}">
+					<h:outputText value="#{item.codigo}" />
+				</p:column>
 
-			<p:column headerText="Nome">
-				<h:outputText value="#{item.nome}" />
-			</p:column>
+				<p:column headerText="Nome" sortBy="#{item.nome}"
+					filterBy="#{item.nome}">
+					<h:outputText value="#{item.nome}" />
+				</p:column>
 
-			<p:column headerText="Telefone">
-				<h:outputText value="#{item.telefone}" />
-			</p:column>
-		</p:dataTable>
+				<p:column headerText="Telefone">
+					<h:outputText value="#{item.telefone}" />
+				</p:column>
+
+				<p:column headerText="RG">
+					<h:outputText value="#{item.rg}" />
+				</p:column>
+
+				<p:column headerText="Endereço">
+					<h:outputText value="#{item.endereco}" />
+				</p:column>
+
+				<f:facet name="footer">
+					<p:commandButton value="Novo Cadastro" onclick="PF('dlgClienteNovo').show();"/>
+				</f:facet>
+
+			</p:dataTable>
+		</h:form>
+
+		<p:dialog widgetVar="dlgClienteNovo" closable="true" draggable="false"
+			resizable="false" modal="true" appendTo="@(body)" header="Cadastrar Paciente">
+
+			<h:form>
+				<h:panelGrid columns="2">
+					<p:outputLabel value="Nome: " />
+					<p:inputText size="30" maxlength="45" />
+
+					<p:outputLabel value="Telefone: " />
+					<p:inputText size="30" maxlength="45" />
+
+					<p:outputLabel value="RG: " />
+					<p:inputText size="30" maxlength="25" />
+
+					<p:outputLabel value="Endereço: " />
+					<p:inputText size="30" maxlength="45" />
+				</h:panelGrid>
+
+				<h:panelGrid columns="2">
+					<p:commandButton value="SALVAR" />
+					<p:commandButton value="FECHAR" onclick="PF('dlgClienteNovo').hide();" />
+				</h:panelGrid>
+			</h:form>
+		</p:dialog>
 	</ui:define>
 </ui:composition>
