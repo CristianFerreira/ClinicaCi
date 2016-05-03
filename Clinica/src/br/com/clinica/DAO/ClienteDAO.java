@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import br.com.clinica.domain.Cliente;
 import br.com.clinica.factory.ConexaoFactory;
@@ -13,15 +14,9 @@ public class ClienteDAO {
 
 	public void salvar(Cliente c) throws SQLException {
 		StringBuilder sql = new StringBuilder();
-		sql.append("INSERT INTO cliente ");
-		sql.append("(nome), (telefone), (rg), (endereco) ");
-		sql.append("VALUES(?), VALUES(?), VALUES(?), VALUES(?)");
-		/*sql.append("(telefone) ");
-		sql.append("VALUES (?)");
-		sql.append("(rg) ");
-		sql.append("VALUES (?)");
-		sql.append("(endereco) ");
-		sql.append("VALUES (?)");*/
+		//INSERT INTO CLIENTE(NOME, TELEFONE, RG, ENDERECO) VALUES(?,?,?,?);
+		sql.append("INSERT INTO cliente(nome, telefone, rg, endereco) ");
+		sql.append("VALUES(?, ?, ?, ?) ");
 
 		Connection conexao = ConexaoFactory.conectar();
 
@@ -104,7 +99,7 @@ public class ClienteDAO {
 	}
 
 	// PESQUISA_LISTA
-	public ArrayList<Cliente> listar() throws SQLException {
+	public List<Cliente> listar() throws SQLException {
 		StringBuilder sql = new StringBuilder();
 		sql.append("SELECT codigo, nome");
 		sql.append("FROM cliente ");
@@ -116,7 +111,7 @@ public class ClienteDAO {
 
 		ResultSet resultado = comando.executeQuery();
 
-		ArrayList<Cliente> lista = new ArrayList<Cliente>();
+		List<Cliente> lista = new ArrayList<Cliente>();
 
 		while (resultado.next()) {
 			Cliente c = new Cliente();

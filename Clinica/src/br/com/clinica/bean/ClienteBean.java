@@ -2,6 +2,7 @@ package br.com.clinica.bean;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -28,7 +29,7 @@ public class ClienteBean {
 	public void prepararPesquisa() {
 		try {
 			ClienteDAO cDAO = new ClienteDAO();
-			ArrayList<Cliente> lista;
+		    List<Cliente> lista;
 			lista = cDAO.listar();
 			// convertendo arraylist para listDataModel para ser exibido na tela
 			itens = new ListDataModel<Cliente>(lista);
