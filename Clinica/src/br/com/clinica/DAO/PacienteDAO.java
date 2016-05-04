@@ -7,12 +7,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.clinica.domain.Cliente;
+import br.com.clinica.domain.Paciente;
 import br.com.clinica.factory.ConexaoFactory;
 
-public class ClienteDAO {
+public class PacienteDAO {
 
-	public void salvar(Cliente c) throws SQLException {
+	public void salvar(Paciente c) throws SQLException {
 		StringBuilder sql = new StringBuilder();
 		//INSERT INTO CLIENTE(NOME, TELEFONE, RG, ENDERECO) VALUES(?,?,?,?);
 		sql.append("INSERT INTO cliente(nome, telefone, rg, endereco) ");
@@ -29,7 +29,7 @@ public class ClienteDAO {
 		comando.executeUpdate();
 	}
 
-	public void excluir(Cliente c) throws SQLException {
+	public void excluir(Paciente c) throws SQLException {
 		StringBuilder sql = new StringBuilder();
 
 		sql.append("DELETE FROM cliente ");
@@ -44,7 +44,7 @@ public class ClienteDAO {
 
 	}
 
-	public void editar(Cliente c) throws SQLException {
+	public void editar(Paciente c) throws SQLException {
 		StringBuilder sql = new StringBuilder();
 
 		sql.append("UPDATE cliente ");
@@ -68,7 +68,7 @@ public class ClienteDAO {
 	}
 
 	// PESQUISA
-	public Cliente buscarPorCodigo(Cliente c) throws SQLException {
+	public Paciente buscarPorCodigo(Paciente c) throws SQLException {
 		StringBuilder sql = new StringBuilder();
 		sql.append("SELECT codigo, nome");
 		sql.append("FROM cliente ");
@@ -81,12 +81,12 @@ public class ClienteDAO {
 
 		ResultSet resultado = comando.executeQuery();
 
-		Cliente retorno = null;
+		Paciente retorno = null;
 
 		// if porque sabemos que somente tem um que e o proximo, senao usaria
 		// while
 		while (resultado.next()) {
-			retorno = new Cliente();
+			retorno = new Paciente();
 			retorno.setCodigo(resultado.getLong("codigo"));
 			retorno.setNome(resultado.getString("nome"));
 			retorno.setTelefone(resultado.getString("telefone"));
@@ -99,7 +99,7 @@ public class ClienteDAO {
 	}
 
 	// PESQUISA_LISTA
-	public List<Cliente> listar() throws SQLException {
+	public List<Paciente> listar() throws SQLException {
 		StringBuilder sql = new StringBuilder();
 		sql.append("SELECT codigo, nome");
 		sql.append("FROM cliente ");
@@ -111,10 +111,10 @@ public class ClienteDAO {
 
 		ResultSet resultado = comando.executeQuery();
 
-		List<Cliente> lista = new ArrayList<Cliente>();
+		List<Paciente> lista = new ArrayList<Paciente>();
 
 		while (resultado.next()) {
-			Cliente c = new Cliente();
+			Paciente c = new Paciente();
 			c.setCodigo(resultado.getLong("codigo"));
 			c.setNome(resultado.getString("nome"));
 			c.setTelefone(resultado.getString("telefone"));
@@ -129,7 +129,7 @@ public class ClienteDAO {
 
 	// PESQUISA_LISTA_DESCRICAO
 
-	public ArrayList<Cliente> buscarPorDescricao(Cliente c) throws SQLException {
+	public ArrayList<Paciente> buscarPorDescricao(Paciente c) throws SQLException {
 		StringBuilder sql = new StringBuilder();
 		sql.append("SELECT codigo, nome");
 		sql.append("FROM cliente ");
@@ -143,10 +143,10 @@ public class ClienteDAO {
 
 		ResultSet resultado = comando.executeQuery();
 
-		ArrayList<Cliente> lista = new ArrayList<Cliente>();
+		ArrayList<Paciente> lista = new ArrayList<Paciente>();
 
 		while (resultado.next()) {
-			Cliente item = new Cliente();
+			Paciente item = new Paciente();
 			item.setCodigo(resultado.getLong("codigo"));
 			item.setNome(resultado.getString("nome"));
 			item.setTelefone(resultado.getString("telefone"));
@@ -161,7 +161,7 @@ public class ClienteDAO {
 
 	public static void main(String[] args) {
 		// INSERIR
-		Cliente f1 = new Cliente();
+		Paciente f1 = new Paciente();
 		f1.setNome("Cristian");
 		f1.setTelefone("31231");
 		f1.setRg("31231");
@@ -173,7 +173,7 @@ public class ClienteDAO {
 		 * "Av Souza mello, 937");
 		 */
 
-		ClienteDAO cDAO = new ClienteDAO();
+		PacienteDAO cDAO = new PacienteDAO();
 
 		try {
 			cDAO.salvar(f1);

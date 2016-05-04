@@ -9,30 +9,30 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.model.ListDataModel;
 
-import br.com.clinica.DAO.ClienteDAO;
-import br.com.clinica.domain.Cliente;
+import br.com.clinica.DAO.PacienteDAO;
+import br.com.clinica.domain.Paciente;
 
 @ManagedBean(name = "MBCliente")
 @ViewScoped
-public class ClienteBean {
-	private ListDataModel<Cliente> itens;
+public class PacienteBean {
+	private ListDataModel<Paciente> itens;
 
-	public ListDataModel<Cliente> getItens() {
+	public ListDataModel<Paciente> getItens() {
 		return itens;
 	}
 
-	public void setItens(ListDataModel<Cliente> itens) {
+	public void setItens(ListDataModel<Paciente> itens) {
 		this.itens = itens;
 	}
 
 	@PostConstruct //depois mostra na tela.
 	public void prepararPesquisa() {
 		try {
-			ClienteDAO cDAO = new ClienteDAO();
-		    List<Cliente> lista;
+			PacienteDAO cDAO = new PacienteDAO();
+		    List<Paciente> lista;
 			lista = cDAO.listar();
 			// convertendo arraylist para listDataModel para ser exibido na tela
-			itens = new ListDataModel<Cliente>(lista);
+			itens = new ListDataModel<Paciente>(lista);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace(); // rastreia o erro.

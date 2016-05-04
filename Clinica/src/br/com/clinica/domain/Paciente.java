@@ -1,6 +1,6 @@
 package br.com.clinica.domain;
 
-public class Cliente {
+public class Paciente {
 	private Long codigo;
 	private String nome;
 	private String telefone;
