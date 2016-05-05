@@ -9,7 +9,7 @@ import br.com.clinica.factory.ConexaoFactory;
 public class ConexaoFactory {
 	private static final String USUARIO = "root";
 	private static final String SENHA = "022010";
-	private static final String URL = "jdbc:sqljdbc://localhost:3306/clinica";
+	private static final String URL = "jdbc:sqlserver://localhost:3306/clinica";
 
 	// Quem chamar a conexao vai ter que fazer tratamento, por isso usamos
 	// throws
