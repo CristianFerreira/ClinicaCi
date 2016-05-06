@@ -8,19 +8,18 @@
 
 	<h:form>
 		<p:menubar>
-			<p:submenu label="Consultas">
-				<p:menuitem value="" />
-			</p:submenu>
+			<p:menuitem value="Consultas" action="pacienteConsulta" />
 
 			<p:submenu label="Pacientes">
 			</p:submenu>
 
 			<f:facet name="options">
-				<p:inputText style="margin-right:10px" placeholder="Usuário" />
+				<p:inputText style="margin-right:10px" placeholder="Usuário"  />
 				<p:inputText style="margin-right:10px" placeholder="Senha" />
-				<p:commandButton type="button" value="Login" icon="ui-icon-extlink" style="margin-right:5px" />
+				<p:commandButton type="button" value="Login" icon="ui-icon-extlink"
+					style="margin-right:5px" />
 			</f:facet>
-			
+
 		</p:menubar>
 	</h:form>
 

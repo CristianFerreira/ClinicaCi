@@ -12,3 +12,13 @@
 .ui-widget, .ui-widget .ui-widget {
 	font-size: 12px !important;
 }
+
+.imagemCentralizada{
+	
+	position: absolute;
+    margin-right: auto;
+	margin-left: auto;
+
+	
+	
+}
