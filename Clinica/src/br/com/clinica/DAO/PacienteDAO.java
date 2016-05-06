@@ -15,18 +15,24 @@ public class PacienteDAO {
 	public void salvar(Paciente c) throws SQLException {
 		StringBuilder sql = new StringBuilder();
 		//INSERT INTO CLIENTE(NOME, TELEFONE, RG, ENDERECO) VALUES(?,?,?,?);
-		sql.append("INSERT INTO cliente(nome, telefone, rg, endereco) ");
-		sql.append("VALUES(?, ?, ?, ?) ");
+		sql.append("INSERT INTO cliente(nome, telefone, rg, endereco) VALUES(?, ?, ?, ?)");
+		
+		try
+		{
+			Connection conexao = ConexaoFactory.conectar();
+			java.sql.PreparedStatement comando = conexao.prepareStatement(sql.toString());
+			comando.setString(1, c.getNome());
+			comando.setString(2, c.getTelefone());
+			comando.setString(3, c.getRg());
+			comando.setString(4, c.getEndereco());
 
-		Connection conexao = ConexaoFactory.conectar();
-
-		java.sql.PreparedStatement comando = conexao.prepareStatement(sql.toString());
-		comando.setString(1, c.getNome());
-		comando.setString(2, c.getTelefone());
-		comando.setString(3, c.getRg());
-		comando.setString(4, c.getEndereco());
-
-		comando.executeUpdate();
+			comando.executeUpdate();
+			
+		}
+		catch (SQLException e) {
+			System.out.println("Não foi possivel inserir!");
+		}
+		
 	}
 
 	public void excluir(Paciente c) throws SQLException {
@@ -47,12 +53,7 @@ public class PacienteDAO {
 	public void editar(Paciente c) throws SQLException {
 		StringBuilder sql = new StringBuilder();
 
-		sql.append("UPDATE cliente ");
-		sql.append("SET nome = ? ");
-		sql.append("SET telefone = ? ");
-		sql.append("SET rg = ? ");
-		sql.append("SET endereco = ? ");
-		sql.append("WHERE codigo = ? ");
+		sql.append("UPDATE cliente SET nome = ? ,telefone = ? ,rg = ? ,endereco = ? WHERE codigo = ?");
 
 		Connection conexao = ConexaoFactory.conectar();
 
