@@ -6,6 +6,7 @@ public class Paciente {
 	private String telefone;
 	private String rg;
 	private String endereco;
+	private String observacao;
 
 	public Long getCodigo() {
 		return codigo;
@@ -47,4 +48,11 @@ public class Paciente {
 		this.endereco = endereco;
 	}
 
+	public String getObservacao() {
+		return observacao;
+	}
+
+	public void setObservacao(String observacao) {
+		this.observacao = observacao;
+	}
 }
