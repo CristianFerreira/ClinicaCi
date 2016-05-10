@@ -13,12 +13,16 @@
 	font-size: 12px !important;
 }
 
-.imagemCentralizada{
+.centralizar-conteudo{
+	text-align:center;
+	margin-top: ;
+}
+.centralizar-menu{
+	margin: auto;
+	 
+}
+.acess{
 	
-	position: absolute;
-    margin-right: auto;
-	margin-left: auto;
-
-	
-	
+	margin-left: 90%;
+	margin-top:  40%;
 }
