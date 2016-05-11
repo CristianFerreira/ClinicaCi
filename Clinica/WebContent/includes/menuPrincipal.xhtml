@@ -9,16 +9,16 @@
 	<h:form>
 		<p:menubar>
 			<p:menuitem value="Consultas" action="pacienteConsulta" />
+			
+			<p:menuitem value="Pacientes"/>
+			
+			<p:submenu label="Gerenciamento">
+			<p:menuitem value="Atendente"/>
+			<p:menuitem value="Medico"/>
+			<p:menuitem value="Plano de saúde"/>
+			</p:submenu>	
 
-			<p:submenu label="Pacientes">
-			</p:submenu>
-
-			<f:facet name="options">
-				<p:inputText style="margin-right:10px" placeholder="Usuário"  />
-				<p:inputText style="margin-right:10px" placeholder="Senha" />
-				<p:commandButton type="button" value="Login" icon="ui-icon-extlink"
-					style="margin-right:5px" />
-			</f:facet>
+			
 
 		</p:menubar>
 	</h:form>
