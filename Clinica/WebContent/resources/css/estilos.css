@@ -26,3 +26,12 @@
 	margin-left: 90%;
 	margin-top:  40%;
 }
+
+.zerar-padding{
+	padding: 0px !important;
+}
+
+.menu-login{
+	background-color: #04416F;
+	height: 75px;
+}
