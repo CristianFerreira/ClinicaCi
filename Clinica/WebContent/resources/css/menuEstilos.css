@@ -1,0 +1,5 @@
+@CHARSET "ISO-8859-1";
+
+.ui-button-text .ui-c{
+	background-color: red !important;
+}

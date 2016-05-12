@@ -40,7 +40,12 @@
 				<p:column headerText="Endereço">
 					<h:outputText value="#{item.endereco}" />
 				</p:column>
-
+				
+				<p:column style="width:32px;text-align: center">
+                    <p:commandButton icon="ui-icon-edit" actionListener="#{dfCarsView.selectCarFromDialog(car)}" />
+                    <p:commandButton icon="ui-icon-times" actionListener="#{dfCarsView.selectCarFromDialog(car)}" />
+                </p:column>
+				
 				<f:facet name="footer">
 					<p:commandButton value="Novo Cadastro" onclick="PF('dlgClienteNovo').show();"/>
 				</f:facet>

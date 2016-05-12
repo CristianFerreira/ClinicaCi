@@ -5,22 +5,20 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+	
+	<h:outputStylesheet library="css" name="menuEstilos.css" />
 
 	<h:form>
-		<p:menubar>
-			<p:menuitem value="Consultas" action="pacienteConsulta" />
-			
-			<p:menuitem value="Pacientes"/>
-			
-			<p:submenu label="Gerenciamento">
-			<p:menuitem value="Atendente"/>
-			<p:menuitem value="Medico"/>
-			<p:menuitem value="Plano de saúde"/>
-			</p:submenu>	
+		<p:growl id="messages" showDetail="true" />
 
-			
+		<p:button  value="Consultas" />
+		<p:button outcome="paciente" value="Pacientes"/>
+		<p:menuButton value="Gerenciamento">
+			<p:menuitem outcome="secretaria" value="Secretária" />
+			<p:menuitem outcome="medico" value="Médico" />
+			<p:menuitem  value="Plano de Saúde" />
 
-		</p:menubar>
+		</p:menuButton>
 	</h:form>
 
 
