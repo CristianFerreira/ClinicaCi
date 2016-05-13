@@ -4,16 +4,19 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import com.sun.msv.driver.textui.Driver;
+
 import br.com.clinica.factory.ConexaoFactory;
 
 public class ConexaoFactory {
-	private static final String USUARIO = "root";
-	private static final String SENHA = "022010";
-	private static final String URL = "jdbc:sqlserver://localhost:3306/clinica";
+	private static final String USUARIO = "dev";
+	private static final String SENHA = "pass@word1";
+	private static final String URL = "jdbc:sqlserver://citfs:1433;databaseName=ClinicaCI";
 
 	// Quem chamar a conexao vai ter que fazer tratamento, por isso usamos
 	// throws
 	public static Connection conectar() throws SQLException {
+		DriverManager.registerDriver(new com.microsoft.sqlserver.jdbc.SQLServerDriver());
 		Connection conexao = DriverManager.getConnection(URL, USUARIO, SENHA);
 		return conexao;
 	}

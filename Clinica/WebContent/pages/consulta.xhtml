@@ -59,14 +59,14 @@
 
 				<f:facet name="footer">
 					<p:commandButton value="Novo Cadastro"
-						onclick="PF('dlgFuncionarioNovo').show();" />
+						onclick="PF('dlgConsultaNova').show();" />
 						
 				</f:facet>
 
 			</p:dataTable>
 		</h:form>
 
-		<p:dialog widgetVar="dlgFuncionarioNovo" closable="true"
+		<p:dialog widgetVar="dlgConsultaNova" closable="true"
 			draggable="false" resizable="false" modal="true" appendTo="@(body)"
 			header="Novo Cadastro">
 
@@ -75,28 +75,28 @@
 					<p:messages id="msgs" />
 					<h:panelGrid columns="2" cellpadding="2">
 
-						<h:outputLabel for="nome" value="Paciente:" />
-						<p:inputText id="nome" value="#{BeanCliente.medico.nome}"
+						<h:outputLabel for="nomePaciente" value="Paciente:" />
+						<p:inputText id="nomePaciente" value="#{BeanCliente.medico.nome}"
 							required="true" label="Nome" requiredMessage="NOME é obrigatorio"
 							size="30" maxlength="45" />
 							
-							<h:outputLabel for="nome" value="Medico:" />
-						<p:inputText id="nome" value="#{BeanCliente.medico.nome}"
+							<h:outputLabel for="nomeMedico" value="Medico:" />
+						<p:inputText id="nomeMedico" value="#{BeanCliente.medico.nome}"
 							required="true" label="Nome" requiredMessage="NOME é obrigatorio"
 							size="30" maxlength="45" />
 							
-							<h:outputLabel for="nome" value="Plano de Saude:" />
-						<p:inputText id="nome" value="#{BeanCliente.medico.nome}"
+							<h:outputLabel for="nomePlano" value="Plano de Saude:" />
+						<p:inputText id="nomePlano" value="#{BeanCliente.medico.nome}"
 							required="true" label="Nome" requiredMessage="NOME é obrigatorio"
 							size="30" maxlength="45" />
 
 					
 
 						<p:outputLabel value="Data " />
-						<p:inputText mask="99/99/9999" />
+						<p:inputMask mask="99/99/9999" size="30"/>
 
 						<h:outputLabel value="Horário" />
-						<p:inputText mask="99:99"></p:inputText>
+						<p:inputMask mask="99:99" size="30"/>
 
 					
 
@@ -108,9 +108,9 @@
 					<h:panelGrid columns="2" >
 						<p:commandButton id="btn" value="Salvar" update="panel"
 							actionListener="#{BeanCliente.Salvar}" />
-						<p:commandButton value="FECHAR" onclick="PF('dlgClienteNovo').hide();" />
+						<p:commandButton value="FECHAR" onclick="PF('dlgConsultaNova').hide();" />
 					</h:panelGrid>
-
+					
 				</p:panel>
 			</h:form>
 
