@@ -11,13 +11,17 @@ import br.com.clinica.factory.ConexaoFactory;
 public class ConexaoFactory {
 	private static final String USUARIO = "dev";
 	private static final String SENHA = "pass@word1";
-	private static final String URL = "jdbc:sqlserver://citfs:1433;databaseName=ClinicaCI";
+	private static final String URL = "jdbc:sqlserver://citfs:1433;databaseName=ClinicaCI;user=" + USUARIO + ";Password=" + SENHA;
 
 	// Quem chamar a conexao vai ter que fazer tratamento, por isso usamos
 	// throws
 	public static Connection conectar() throws SQLException {
-		DriverManager.registerDriver(new com.microsoft.sqlserver.jdbc.SQLServerDriver());
-		Connection conexao = DriverManager.getConnection(URL, USUARIO, SENHA);
+		try {
+			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		Connection conexao = DriverManager.getConnection(URL);
 		return conexao;
 	}
 

@@ -102,9 +102,7 @@ public class PacienteDAO {
 	// PESQUISA_LISTA
 	public List<Paciente> listar() throws SQLException {
 		StringBuilder sql = new StringBuilder();
-		sql.append("SELECT id_paciente, nome");
-		sql.append("FROM pacientes ");
-		sql.append("ORDER BY nome ASC ");
+		sql.append("SELECT * FROM pacientes ORDER BY nome ASC");
 
 		Connection conexao = ConexaoFactory.conectar();
 
@@ -116,12 +114,12 @@ public class PacienteDAO {
 
 		while (resultado.next()) {
 			Paciente c = new Paciente();
-			c.setCodigo(resultado.getLong("id_paciente"));
+			c.setCodigo(new Long(resultado.getInt("id_paciente")));
 			c.setNome(resultado.getString("nome"));
 			// c.setTelefone(resultado.getString("data_nascimento"));
-			//c.setTelefone(resultado.getString("telefone"));
-			//c.setEndereco(resultado.getString("endereco"));
-			//c.setEndereco(resultado.getString("observacoes"));
+			c.setTelefone(resultado.getString("telefone"));
+			c.setEndereco(resultado.getString("endereco"));
+			c.setEndereco(resultado.getString("observacoes"));
 
 			lista.add(c);
 		}
