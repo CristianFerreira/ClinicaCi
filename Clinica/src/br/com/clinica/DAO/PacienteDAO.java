@@ -116,7 +116,7 @@ public class PacienteDAO {
 			Paciente c = new Paciente();
 			c.setCodigo(new Long(resultado.getInt("id_paciente")));
 			c.setNome(resultado.getString("nome"));
-			// c.setTelefone(resultado.getString("data_nascimento"));
+			c.setDataNasc(resultado.getTimestamp("data_nascimento"));
 			c.setTelefone(resultado.getString("telefone"));
 			c.setEndereco(resultado.getString("endereco"));
 			c.setEndereco(resultado.getString("observacoes"));

@@ -1,10 +1,12 @@
 package br.com.clinica.domain;
 
+import java.util.Date;
+
 public class Paciente {
 	private Long codigo;
 	private String nome;
 	private String telefone;
-	private String rg;
+	private Date dataNasc;
 	private String endereco;
 	private String observacao;
 
@@ -32,14 +34,6 @@ public class Paciente {
 		this.telefone = telefone;
 	}
 
-	public String getRg() {
-		return rg;
-	}
-
-	public void setRg(String rg) {
-		this.rg = rg;
-	}
-
 	public String getEndereco() {
 		return endereco;
 	}
@@ -54,5 +48,13 @@ public class Paciente {
 
 	public void setObservacao(String observacao) {
 		this.observacao = observacao;
+	}
+
+	public Date getDataNasc() {
+		return dataNasc;
+	}
+
+	public void setDataNasc(Date dataNasc) {
+		this.dataNasc = dataNasc;
 	}
 }
