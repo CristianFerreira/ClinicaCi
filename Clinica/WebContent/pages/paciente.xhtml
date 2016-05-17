@@ -12,9 +12,9 @@
 	</ui:define>
 
 	<ui:define name="conteudo">
-		<h:form>
-			<p:dataTable emptyMessage="Nenhum registro encontrado."
-				value="#{MBCliente.itens}" var="item" paginator="true" rows="20">
+		<h:form id="formPacientes">
+			<p:dataTable id="tblPacientes" emptyMessage="Nenhum registro encontrado."
+				value="#{MBPaciente.itens}" var="item" paginator="true" rows="20">
 
 				<f:facet name="header">
 					Tabela de Pacientes
@@ -47,7 +47,7 @@
                 </p:column>
 				
 				<f:facet name="footer">
-					<p:commandButton value="Novo Cadastro" onclick="PF('dlgClienteNovo').show();"/>
+					<p:commandButton value="Novo Cadastro" actionListener="#{MBPaciente.prepararNovoPaciente}" update=":formNovoPacientes:pnlNovoPacientes" oncomplete="PF('dlgClienteNovo').show();"/>
 				</f:facet>
 
 			</p:dataTable>
@@ -56,23 +56,23 @@
 		<p:dialog widgetVar="dlgClienteNovo" closable="true" draggable="false"
 			resizable="false" modal="true" appendTo="@(body)" header="Cadastrar Paciente">
 
-			<h:form>
-				<h:panelGrid columns="2">
+			<h:form id="formNovoPacientes">
+				<h:panelGrid id="pnlNovoPacientes" columns="2">
 					<p:outputLabel value="Nome: " />
-					<p:inputText size="30" maxlength="45" />
+					<p:inputText size="30" maxlength="45" value="#{MBPaciente.paciente.nome}" />
 
 					<p:outputLabel value="Telefone: " />
-					<p:inputText size="30" maxlength="45" />
+					<p:inputText size="30" maxlength="45" value="#{MBPaciente.paciente.telefone}"/>
 
-					<p:outputLabel value="RG: " />
-					<p:inputText size="30" maxlength="25" />
+					<p:outputLabel value="Data nascimento:" />
+					<p:inputText size="30" maxlength="25" value="#{MBPaciente.paciente.dataNasc}" />
 
 					<p:outputLabel value="Endereço: " />
-					<p:inputText size="30" maxlength="45" />
+					<p:inputText size="30" maxlength="45" value="#{MBPaciente.paciente.endereco}"/>
 				</h:panelGrid>
 
 				<h:panelGrid columns="2">
-					<p:commandButton value="SALVAR" />
+					<p:commandButton value="SALVAR" actionListener="#{MBPaciente.novoPaciente}" oncomplete="PF('dlgClienteNovo').hide();" update=":formPacientes:tblPacientes :msgGlobal" />
 					<p:commandButton value="FECHAR" onclick="PF('dlgClienteNovo').hide();" />
 				</h:panelGrid>
 			</h:form>

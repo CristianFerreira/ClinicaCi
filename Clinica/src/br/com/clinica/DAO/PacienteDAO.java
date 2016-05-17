@@ -158,27 +158,30 @@ public class PacienteDAO {
 
 		return lista;
 	}*/
-	/*
-	 * public static void main(String[] args) { // INSERIR Paciente f1 = new
-	 * Paciente(); f1.setNome("Simone Santos Ferreira");
-	 * f1.setTelefone("(51)96953571");
-	 * 
-	 * 
-	 * /* Cliente f2 = new Cliente (); f2.setNome("Thais da Rosa Lima");
-	 * f2.setTelefone("95950209"); f2.setRg("312312312"); f2.setEndereco(
-	 * "Av Souza mello, 937");
-	 * 
-	 * 
-	 * PacienteDAO cDAO = new PacienteDAO();
-	 * 
-	 * try { cDAO.salvar(f1); // cDAO.salvar(f2);
-	 * 
-	 * System.out.println("Clientes Salvos"); } catch (SQLException e) {
-	 * e.printStackTrace(); System.out.println(
-	 * "Ocorreu erro para salvar Clientes"); } }
-	 */
+	
+	  public static void main(String[] args) { // INSERIR
+		  Paciente f1 = new Paciente(); 
+		  f1.setNome("Simone Santos Ferreira");
+	  f1.setTelefone("(51)96953571");
+	  
+	 
+	  Paciente f2 = new Paciente();
+	  f2.setNome("Thais da Rosa Lima");
+	 f2.setTelefone("95950209");  
+	 f2.setEndereco("Av Souza mello, 937");
+	  
+	  
+	  PacienteDAO cDAO = new PacienteDAO();
+	  
+	  try { 
+		  cDAO.salvar(f1); // cDAO.salvar(f2);
+	  
+	  System.out.println("Clientes Salvos"); } catch (SQLException e) {
+	  e.printStackTrace(); System.out.println(
+	  "Ocorreu erro para salvar Clientes"); } }
+	 
 
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		Paciente f1 = new Paciente();
 		f1.setCodigo(1L);
 
@@ -196,5 +199,5 @@ public class PacienteDAO {
 		} catch (SQLException e) {
 			System.out.println("Ocorreu um erro ao tentar pesquisar um dos fabricantes");
 		}
-	}
+	}*/
 }
