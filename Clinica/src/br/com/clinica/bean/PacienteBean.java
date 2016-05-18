@@ -60,11 +60,11 @@ public class PacienteBean {
 
 			PacienteDAO dao = new PacienteDAO();
 			dao.salvar(paciente);
-			
+
 			ArrayList<Paciente> lista = (ArrayList<Paciente>) dao.listar();
 			itens = new ListDataModel<Paciente>(lista);
-			
-			JSFUtil.adicionarMensagemSucesso("Paciente Salvo com sucesso.");
+
+			JSFUtil.adicionarMensagemSucesso("Paciente salvo com sucesso.");
 
 		} catch (SQLException ex) {
 			ex.printStackTrace();
@@ -73,4 +73,50 @@ public class PacienteBean {
 
 	}
 
+	public void prepararExcluir() {
+
+		paciente = itens.getRowData(); // ja traz o paciente clicado
+
+	}
+
+	public void excluir() {
+
+		try {
+			PacienteDAO dao = new PacienteDAO();
+			dao.excluir(paciente);
+
+			ArrayList<Paciente> lista = (ArrayList<Paciente>) dao.listar();
+			itens = new ListDataModel<Paciente>(lista);
+
+			JSFUtil.adicionarMensagemSucesso("Paciente removido com sucesso.");
+		} catch (SQLException ex) {
+
+			ex.printStackTrace();
+			JSFUtil.adicionarMensagemErro(ex.getMessage());
+		}
+
+	}
+
+	public void prepararEditar() {
+
+		paciente = itens.getRowData(); // ja traz o paciente clicado
+
+	}
+
+	public void editar() {
+		
+		try{
+		PacienteDAO dao = new PacienteDAO();
+		dao.editar(paciente);
+		
+		ArrayList<Paciente> lista = (ArrayList<Paciente>) dao.listar();
+		itens = new ListDataModel<Paciente>(lista);
+		
+		JSFUtil.adicionarMensagemSucesso("Paciente editado com sucesso.");
+		}catch(SQLException ex){
+			ex.printStackTrace();
+			JSFUtil.adicionarMensagemErro(ex.getMessage());
+		}
+		
+	}
 }

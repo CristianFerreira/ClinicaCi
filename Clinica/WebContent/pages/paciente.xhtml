@@ -13,14 +13,15 @@
 
 	<ui:define name="conteudo">
 		<h:form id="formPacientes">
-			<p:dataTable id="tblPacientes" emptyMessage="Nenhum registro encontrado."
-				value="#{MBPaciente.itens}" var="item" paginator="true" rows="20">
+			<p:dataTable id="tblPacientes"
+				emptyMessage="Nenhum registro encontrado."
+				value="#{MBPaciente.itens}" var="item" paginator="true" rows="7">
 
 				<f:facet name="header">
 					Tabela de Pacientes
 				</f:facet>
 				<p:column headerText="Código" sortBy="#{item.codigo}"
-					filterBy="#{item.codigo}">
+					filterBy="#{item.codigo}" style="width:auto;text-align: center">
 					<h:outputText value="#{item.codigo}" />
 				</p:column>
 
@@ -32,50 +33,148 @@
 				<p:column headerText="Telefone">
 					<h:outputText value="#{item.telefone}" />
 				</p:column>
-				
+
 				<p:column headerText="Data nascimento">
 					<h:outputText value="#{item.dataNasc}" />
 				</p:column>
-				
+
 				<p:column headerText="Endereço">
 					<h:outputText value="#{item.endereco}" />
 				</p:column>
-				
-				<p:column style="width:32px;text-align: center">
-                    <p:commandButton icon="ui-icon-edit" actionListener="#{dfCarsView.selectCarFromDialog(car)}" />
-                    <p:commandButton icon="ui-icon-times" actionListener="#{dfCarsView.selectCarFromDialog(car)}" />
-                </p:column>
-				
+
+				<p:column headerText="Observações">
+					<h:outputText value="#{item.observacao}" />
+				</p:column>
+
+				<p:column headerText="Opções" style="width:auto;text-align: center">
+					<p:commandButton icon="ui-icon-trash"
+						actionListener="#{MBPaciente.prepararExcluir}"
+						oncomplete="PF('dlgPacExcluir').show();"
+						update=":formPacExcluir:pnlPacExcluir" />
+					<p:commandButton icon="ui-icon-pencil"
+						actionListener="#{MBPaciente.prepararEditar}" oncomplete="PF('dlgPacEditar').show();"
+						update=":formPacEditar:pnlPacEditar" />
+				</p:column>
+
 				<f:facet name="footer">
-					<p:commandButton value="Novo Cadastro" actionListener="#{MBPaciente.prepararNovoPaciente}" update=":formNovoPacientes:pnlNovoPacientes" oncomplete="PF('dlgClienteNovo').show();"/>
+					<p:commandButton value="Novo Cadastro"
+						actionListener="#{MBPaciente.prepararNovoPaciente}"
+						update=":formNovoPacientes:pnlNovoPacientes"
+						oncomplete="PF('dlgClienteNovo').show();" />
 				</f:facet>
 
 			</p:dataTable>
 		</h:form>
 
 		<p:dialog widgetVar="dlgClienteNovo" closable="true" draggable="false"
-			resizable="false" modal="true" appendTo="@(body)" header="Cadastrar Paciente">
+			resizable="false" modal="true" appendTo="@(body)"
+			header="Cadastrar Paciente">
 
 			<h:form id="formNovoPacientes">
 				<h:panelGrid id="pnlNovoPacientes" columns="2">
 					<p:outputLabel value="Nome: " />
-					<p:inputText size="30" maxlength="45" value="#{MBPaciente.paciente.nome}" />
+					<p:inputText size="30" maxlength="45"
+						value="#{MBPaciente.paciente.nome}" />
 
 					<p:outputLabel value="Telefone: " />
-					<p:inputText size="30" maxlength="45" value="#{MBPaciente.paciente.telefone}"/>
+					<p:inputMask size="30" maxlength="11"
+						value="#{MBPaciente.paciente.telefone}" mask="(99)9999-9999" />
 
-					<p:outputLabel value="Data nascimento:" />
-					<p:inputText size="30" maxlength="25" value="#{MBPaciente.paciente.dataNasc}" />
+
+					<p:outputLabel for="german" value="Data nascimento:" />
+					<p:calendar locale="pt" id="german"
+						value="#{MBPaciente.paciente.dataNasc}" yearRange="c-100:c"
+						navigator="true" pattern="dd-mm-yyyy" size="30" />
+
 
 					<p:outputLabel value="Endereço: " />
-					<p:inputText size="30" maxlength="45" value="#{MBPaciente.paciente.endereco}"/>
+					<p:inputText size="30" maxlength="45"
+						value="#{MBPaciente.paciente.endereco}" />
+
+					<p:outputLabel value="Observações: " />
+					<p:inputTextarea rows="6" cols="32"
+						value="#{MBPaciente.paciente.observacao}" />
 				</h:panelGrid>
 
 				<h:panelGrid columns="2">
-					<p:commandButton value="SALVAR" actionListener="#{MBPaciente.novoPaciente}" oncomplete="PF('dlgClienteNovo').hide();" update=":formPacientes:tblPacientes :msgGlobal" />
-					<p:commandButton value="FECHAR" onclick="PF('dlgClienteNovo').hide();" />
+					<p:commandButton value="SALVAR"
+						actionListener="#{MBPaciente.novoPaciente}"
+						oncomplete="PF('dlgClienteNovo').hide();"
+						update=":formPacientes:tblPacientes :msgGlobal" />
+					<p:commandButton value="FECHAR"
+						onclick="PF('dlgClienteNovo').hide();" />
 				</h:panelGrid>
 			</h:form>
+		</p:dialog>
+
+		<p:dialog widgetVar="dlgPacExcluir" closable="false" draggable="false"
+			resizable="false" modal="true" appendTo="@(body)"
+			header="Paciente - Excluir">
+
+			<h:form id="formPacExcluir">
+				<h:panelGrid id="pnlPacExcluir" columns="2">
+					<h:outputText value="Código:" />
+					<h:outputText value="#{MBPaciente.paciente.codigo}" />
+
+					<h:outputText value="Nome:" />
+					<h:outputText value="#{MBPaciente.paciente.nome}" />
+
+				</h:panelGrid>
+				<h:panelGrid columns="2">
+					<p:commandButton value="Excluir"
+						actionListener="#{MBPaciente.excluir}"
+						oncomplete="PF('dlgPacExcluir').hide();"
+						update=":formPacientes:tblPacientes :msgGlobal" />
+					<p:commandButton value="Cancelar"
+						onclick="PF('dlgPacExcluir').hide();" />
+				</h:panelGrid>
+			</h:form>
+		</p:dialog>
+
+		<p:dialog widgetVar="dlgPacEditar" closable="false" draggable="false"
+			resizable="false" modal="true" appendTo="@(body)"
+			header="Paciente - Editar">
+			<h:form id="formPacEditar">
+				<h:panelGrid id="pnlPacEditar" columns="2">
+					<p:outputLabel value="Código" />
+					<h:outputText value="#{MBPaciente.paciente.codigo}" />
+
+					<p:outputLabel value="Nome: "></p:outputLabel>
+					<p:inputText size="30" maxlength="45"
+						value="#{MBPaciente.paciente.nome}" />
+
+					<p:outputLabel value="Telefone: " />
+					<p:inputMask size="30" maxlength="11"
+						value="#{MBPaciente.paciente.telefone}" mask="(99)9999-9999" />
+
+
+					<p:outputLabel for="german" value="Data nascimento:" />
+					<p:calendar locale="pt" id="german"
+						value="#{MBPaciente.paciente.dataNasc}" yearRange="c-100:c"
+						navigator="true" pattern="dd-mm-yyyy" size="30" />
+
+
+					<p:outputLabel value="Endereço: " />
+					<p:inputText size="30" maxlength="45"
+						value="#{MBPaciente.paciente.endereco}" />
+
+					<p:outputLabel value="Observações: " />
+					<p:inputTextarea rows="6" cols="32"
+						value="#{MBPaciente.paciente.observacao}" />
+
+				</h:panelGrid>
+
+				<h:panelGrid columns="2">
+					<p:commandButton value="Editar"
+						actionListener="#{MBPaciente.editar}"
+						oncomplete="PF('dlgPacEditar').hide();"
+						update=":formPacientes:tblPacientes :msgGlobal" />
+					<p:commandButton value="Cancelar"
+						actionListener="PF('dlgPacEditar').hide();" />
+				</h:panelGrid>
+
+			</h:form>
+
 		</p:dialog>
 	</ui:define>
 </ui:composition>

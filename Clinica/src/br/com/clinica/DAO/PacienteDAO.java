@@ -17,13 +17,16 @@ public class PacienteDAO {
 	public void salvar(Paciente c) throws SQLException {
 		StringBuilder sql = new StringBuilder();
 		// INSERT INTO CLIENTE(NOME, TELEFONE, RG, ENDERECO) VALUES(?,?,?,?);
-		sql.append("INSERT INTO pacientes(nome, telefone) VALUES(?, ?)");
+		sql.append("INSERT INTO pacientes(nome, telefone, data_nascimento, endereco, observacoes) VALUES(?, ?, ?, ?, ?)");
 
 		try {
 			Connection conexao = ConexaoFactory.conectar();
 			java.sql.PreparedStatement comando = conexao.prepareStatement(sql.toString());
 			comando.setString(1, c.getNome());
 			comando.setString(2, c.getTelefone());
+			comando.setDate(3, new java.sql.Date(c.getDataNasc().getTime()));
+			comando.setString(4, c.getEndereco());
+			comando.setString(5, c.getObservacao());
 
 			comando.executeUpdate();
 
@@ -34,7 +37,7 @@ public class PacienteDAO {
 	}
 	
 
-	/*
+	
 	public void excluir(Paciente c) throws SQLException {
 		StringBuilder sql = new StringBuilder();
 
@@ -48,25 +51,25 @@ public class PacienteDAO {
 
 		comando.executeUpdate();
 
-	}*/
+	}
 
-/*	public void editar(Paciente c) throws SQLException {
+public void editar(Paciente c) throws SQLException {
 		StringBuilder sql = new StringBuilder();
 
-		sql.append("UPDATE pacientes SET nome = ? ,telefone = ? ,rg = ? ,endereco = ? WHERE codigo = ?");
+		sql.append("UPDATE pacientes SET nome = ? ,telefone = ? ,endereco = ?, data_nascimento = ?, descricao = ? WHERE codigo = ?");
 
 		Connection conexao = ConexaoFactory.conectar();
 
 		java.sql.PreparedStatement comando = conexao.prepareStatement(sql.toString());
 		comando.setString(1, c.getNome());
 		comando.setString(2, c.getTelefone());
-		comando.setString(3, c.getRg());
+		comando.setDate(3, new java.sql.Date(c.getDataNasc().getTime()));
 		comando.setString(4, c.getEndereco());
-		comando.setLong(2, c.getCodigo());
+		comando.setString(5, c.getObservacao());
 
 		comando.executeUpdate();
 
-	}*/
+	}
 
 	// PESQUISA
 	public Paciente buscarPorCodigo(Paciente c) throws SQLException {
@@ -119,7 +122,7 @@ public class PacienteDAO {
 			c.setDataNasc(resultado.getTimestamp("data_nascimento"));
 			c.setTelefone(resultado.getString("telefone"));
 			c.setEndereco(resultado.getString("endereco"));
-			c.setEndereco(resultado.getString("observacoes"));
+			c.setObservacao(resultado.getString("observacoes"));
 
 			lista.add(c);
 		}
