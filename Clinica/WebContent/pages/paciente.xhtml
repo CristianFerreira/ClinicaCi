@@ -13,9 +13,10 @@
 
 	<ui:define name="conteudo">
 		<h:form id="formPacientes">
-			<p:dataTable id="tblPacientes"
+			<p:dataTable id="tblPacientes" widgetVar="tabelaPaciente"
 				emptyMessage="Nenhum registro encontrado."
-				value="#{MBPaciente.itens}" var="item" paginator="true" rows="7">
+				value="#{MBPaciente.itens}" var="item" filteredValue="#{MBPaciente.itensFiltrados}"
+				paginator="true" rows="7">
 
 				<f:facet name="header">
 					Tabela de Pacientes
@@ -45,15 +46,19 @@
 				<p:column headerText="Observações">
 					<h:outputText value="#{item.observacao}" />
 				</p:column>
+				
+			  <p:column headerText="Opções" style="width:auto;text-align: center">	
+				<p:commandButton icon="ui-icon-pencil" value="Editar"
+					oncomplete="PF('dlgPacEditar').show();"
+					update=":formPacEditar:pnlPacEditar" >
+					<f:setPropertyActionListener target="#{MBPaciente.paciente}" value="#{item}" />
+				</p:commandButton>
 
-				<p:column headerText="Opções" style="width:auto;text-align: center">
-					<p:commandButton icon="ui-icon-trash"
-						actionListener="#{MBPaciente.prepararExcluir}"
+					<p:commandButton icon="ui-icon-trash" value="Excluir"
 						oncomplete="PF('dlgPacExcluir').show();"
-						update=":formPacExcluir:pnlPacExcluir" />
-					<p:commandButton icon="ui-icon-pencil"
-						actionListener="#{MBPaciente.prepararEditar}" oncomplete="PF('dlgPacEditar').show();"
-						update=":formPacEditar:pnlPacEditar" />
+						update=":formPacExcluir:pnlPacExcluir" >
+						<f:setPropertyActionListener  target="#{MBPaciente.paciente}" value="#{item}"/>
+					</p:commandButton>
 				</p:column>
 
 				<f:facet name="footer">
@@ -99,7 +104,7 @@
 				<h:panelGrid columns="2">
 					<p:commandButton value="SALVAR"
 						actionListener="#{MBPaciente.novoPaciente}"
-						oncomplete="PF('dlgClienteNovo').hide();"
+						oncomplete="PF('dlgClienteNovo').hide(); tabelaPaciente.clearFilters();"
 						update=":formPacientes:tblPacientes :msgGlobal" />
 					<p:commandButton value="FECHAR"
 						onclick="PF('dlgClienteNovo').hide();" />
@@ -123,7 +128,7 @@
 				<h:panelGrid columns="2">
 					<p:commandButton value="Excluir"
 						actionListener="#{MBPaciente.excluir}"
-						oncomplete="PF('dlgPacExcluir').hide();"
+						oncomplete="PF('dlgPacExcluir').hide(); tabelaPaciente.clearFilters();"
 						update=":formPacientes:tblPacientes :msgGlobal" />
 					<p:commandButton value="Cancelar"
 						onclick="PF('dlgPacExcluir').hide();" />
@@ -167,7 +172,7 @@
 				<h:panelGrid columns="2">
 					<p:commandButton value="Editar"
 						actionListener="#{MBPaciente.editar}"
-						oncomplete="PF('dlgPacEditar').hide();"
+						oncomplete="PF('dlgPacEditar').hide(); tabelaPaciente.clearFilters();"
 						update=":formPacientes:tblPacientes :msgGlobal" />
 					<p:commandButton value="Cancelar"
 						actionListener="PF('dlgPacEditar').hide();" />

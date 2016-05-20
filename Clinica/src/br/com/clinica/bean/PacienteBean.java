@@ -2,12 +2,11 @@ package br.com.clinica.bean;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
+
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.model.ListDataModel;
 
 import br.com.clinica.DAO.PacienteDAO;
 import br.com.clinica.domain.Paciente;
@@ -16,8 +15,9 @@ import br.com.clinica.util.JSFUtil;
 @ManagedBean(name = "MBPaciente")
 @ViewScoped
 public class PacienteBean {
-	private ListDataModel<Paciente> itens;
+	private ArrayList<Paciente> itens;
 	private Paciente paciente;
+	private ArrayList<Paciente> itensFiltrados;
 
 	public Paciente getPaciente() {
 		return paciente;
@@ -27,24 +27,32 @@ public class PacienteBean {
 		this.paciente = paciente;
 	}
 
-	public ListDataModel<Paciente> getItens() {
+	public ArrayList<Paciente> getItens() {
 		return itens;
 	}
 
-	public void setItens(ListDataModel<Paciente> itens) {
+	public void setItens(ArrayList<Paciente> itens) {
 		this.itens = itens;
+	}
+
+	public ArrayList<Paciente> getItensFiltrados() {
+		return itensFiltrados;
+	}
+
+	public void setItensFiltrados(ArrayList<Paciente> itensFiltrados) {
+		this.itensFiltrados = itensFiltrados;
 	}
 
 	@PostConstruct // depois mostra na tela.
 	public void prepararPesquisa() {
 		try {
 			PacienteDAO cDAO = new PacienteDAO();
-			List<Paciente> lista;
-			lista = cDAO.listar();
+			//List<Paciente> lista;
+			itens = (ArrayList<Paciente>) cDAO.listar();
 			// convertendo arraylist para listDataModel para ser exibido na tela
-			itens = new ListDataModel<Paciente>(lista);
+
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace(); // rastreia o erro.
 			JSFUtil.adicionarMensagemErro(e.getMessage());
 		}
@@ -61,8 +69,7 @@ public class PacienteBean {
 			PacienteDAO dao = new PacienteDAO();
 			dao.salvar(paciente);
 
-			ArrayList<Paciente> lista = (ArrayList<Paciente>) dao.listar();
-			itens = new ListDataModel<Paciente>(lista);
+			itens = (ArrayList<Paciente>) dao.listar();
 
 			JSFUtil.adicionarMensagemSucesso("Paciente salvo com sucesso.");
 
@@ -73,11 +80,9 @@ public class PacienteBean {
 
 	}
 
-	public void prepararExcluir() {
-
-		paciente = itens.getRowData(); // ja traz o paciente clicado
-
-	}
+	// public void prepararExcluir() {
+	// paciente = itens.getRowData(); // ja traz o paciente clicado
+	// }
 
 	public void excluir() {
 
@@ -85,8 +90,8 @@ public class PacienteBean {
 			PacienteDAO dao = new PacienteDAO();
 			dao.excluir(paciente);
 
-			ArrayList<Paciente> lista = (ArrayList<Paciente>) dao.listar();
-			itens = new ListDataModel<Paciente>(lista);
+			itens = (ArrayList<Paciente>) dao.listar();
+			// itens = new ListDataModel<Paciente>(lista);
 
 			JSFUtil.adicionarMensagemSucesso("Paciente removido com sucesso.");
 		} catch (SQLException ex) {
@@ -97,26 +102,25 @@ public class PacienteBean {
 
 	}
 
-	public void prepararEditar() {
-
-		paciente = itens.getRowData(); // ja traz o paciente clicado
-
-	}
+	// public void prepararEditar() {
+	// paciente = itens.getRowData(); // ja traz o paciente clicado
+	// }
 
 	public void editar() {
-		
-		try{
-		PacienteDAO dao = new PacienteDAO();
-		dao.editar(paciente);
-		
-		ArrayList<Paciente> lista = (ArrayList<Paciente>) dao.listar();
-		itens = new ListDataModel<Paciente>(lista);
-		
-		JSFUtil.adicionarMensagemSucesso("Paciente editado com sucesso.");
-		}catch(SQLException ex){
+
+		try {
+			PacienteDAO dao = new PacienteDAO();
+			dao.editar(paciente);
+
+			itens = (ArrayList<Paciente>) dao.listar();
+			// itens = new ListDataModel<Paciente>(lista);
+
+			JSFUtil.adicionarMensagemSucesso("Paciente editado com sucesso.");
+
+		} catch (SQLException ex) {
 			ex.printStackTrace();
 			JSFUtil.adicionarMensagemErro(ex.getMessage());
 		}
-		
+
 	}
 }
