@@ -56,16 +56,19 @@ public class PacienteDAO {
 public void editar(Paciente c) throws SQLException {
 		StringBuilder sql = new StringBuilder();
 
-		sql.append("UPDATE pacientes SET nome = ? ,telefone = ? ,endereco = ?, data_nascimento = ?, descricao = ? WHERE codigo = ?");
+		//sql.append("UPDATE pacientes");
+		sql.append("UPDATE pacientes SET nome = ?, telefone = ?, data_nascimento = ?, endereco = ?, observacoes = ? WHERE id_paciente = ? ");
+		//sql.append("WHERE codigo = ?");
 
 		Connection conexao = ConexaoFactory.conectar();
 
-		java.sql.PreparedStatement comando = conexao.prepareStatement(sql.toString());
+		PreparedStatement comando = conexao.prepareStatement(sql.toString());
 		comando.setString(1, c.getNome());
 		comando.setString(2, c.getTelefone());
 		comando.setDate(3, new java.sql.Date(c.getDataNasc().getTime()));
 		comando.setString(4, c.getEndereco());
 		comando.setString(5, c.getObservacao());
+		comando.setLong(6, c.getCodigo());
 
 		comando.executeUpdate();
 
@@ -162,7 +165,7 @@ public void editar(Paciente c) throws SQLException {
 		return lista;
 	}*/
 	
-	  public static void main(String[] args) { // INSERIR
+	/*  public static void main(String[] args) { // INSERIR
 		  Paciente f1 = new Paciente(); 
 		  f1.setNome("Simone Santos Ferreira");
 	  f1.setTelefone("(51)96953571");
@@ -182,7 +185,7 @@ public void editar(Paciente c) throws SQLException {
 	  System.out.println("Clientes Salvos"); } catch (SQLException e) {
 	  e.printStackTrace(); System.out.println(
 	  "Ocorreu erro para salvar Clientes"); } }
-	 
+	 */
 
 	/*public static void main(String[] args) {
 		Paciente f1 = new Paciente();

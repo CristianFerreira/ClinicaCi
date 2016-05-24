@@ -3,7 +3,6 @@ package br.com.clinica.bean;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -15,8 +14,9 @@ import br.com.clinica.util.JSFUtil;
 @ManagedBean(name = "MBPaciente")
 @ViewScoped
 public class PacienteBean {
-	private ArrayList<Paciente> itens;
+	
 	private Paciente paciente;
+	private ArrayList<Paciente> itens;
 	private ArrayList<Paciente> itensFiltrados;
 
 	public Paciente getPaciente() {
@@ -47,7 +47,7 @@ public class PacienteBean {
 	public void prepararPesquisa() {
 		try {
 			PacienteDAO cDAO = new PacienteDAO();
-			//List<Paciente> lista;
+			// List<Paciente> lista;
 			itens = (ArrayList<Paciente>) cDAO.listar();
 			// convertendo arraylist para listDataModel para ser exibido na tela
 
