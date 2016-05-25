@@ -1,5 +1,6 @@
 package br.com.clinica.domain;
 
+
 public class Usuario {
 	private Long idUsuario;
 	private int tipoUsuario;
@@ -65,4 +66,6 @@ public class Usuario {
 	public void setEspecialidade(String especialidade) {
 		this.especialidade = especialidade;
 	}
+	
+	
 }
