@@ -16,7 +16,7 @@
 			<p:dataTable id="tblPacientes" widgetVar="tabelaPaciente"
 				emptyMessage="Nenhum registro encontrado."
 				value="#{MBPaciente.itens}" var="item" filteredValue="#{MBPaciente.itensFiltrados}"
-				paginator="true" rows="8">
+				paginator="true" rows="10">
 
 				<f:facet name="header">
 					Tabela de Pacientes
@@ -55,7 +55,7 @@
 				</p:commandButton>
 				
 				
-					<p:commandButton icon="ui-icon-trash" value="Excluir"
+					<p:commandButton style="color:#700000;" icon="ui-icon-trash" value="Excluir"
 						oncomplete="PF('dlgPacExcluir').show();"
 						update=":formPacExcluir:pnlPacExcluir" >
 						<f:setPropertyActionListener  target="#{MBPaciente.paciente}" value="#{item}"/>
@@ -126,7 +126,7 @@
 
 				</h:panelGrid>
 				<h:panelGrid columns="2">
-					<p:commandButton value="Excluir"
+					<p:commandButton style="color:#700000;" value="Excluir"
 						actionListener="#{MBPaciente.excluir}"
 						oncomplete="PF('dlgPacExcluir').hide(); PF('tabelaPaciente').clearFilters();"
 						update=":formPacientes:tblPacientes :msgGlobal" />

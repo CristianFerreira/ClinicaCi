@@ -109,6 +109,8 @@ public class PacienteBean {
 	public void editar() {
 
 		try {
+			
+			
 			PacienteDAO dao = new PacienteDAO();
 			dao.editar(paciente);
 

@@ -63,6 +63,7 @@ public class UsuarioDAO {
 			c.setRg(resultado.getString("rg"));
 			c.setEndereco(resultado.getString("endereco"));
 			c.setLogin(resultado.getString("login"));
+			c.setSenha(resultado.getString("senha"));
 			c.setEspecialidade(resultado.getString("especialidades"));
 
 			lista.add(c);
@@ -72,27 +73,94 @@ public class UsuarioDAO {
 	}
 
 	
-	public void editar(Paciente c) throws SQLException {
+	public void editar(Usuario c) throws SQLException {
 		StringBuilder sql = new StringBuilder();
 
 		//sql.append("UPDATE pacientes");
-		sql.append("UPDATE pacientes SET nome = ?, telefone = ?, data_nascimento = ?, endereco = ?, observacoes = ? WHERE id_paciente = ? ");
+		sql.append("UPDATE usuario SET tipo_usuario = ?, nome = ?, telefone = ?, rg = ?, endereco= ?, login = ?, especialidades = ? WHERE usuario_id = ? ");
 		//sql.append("WHERE codigo = ?");
 
 		Connection conexao = ConexaoFactory.conectar();
 
 		PreparedStatement comando = conexao.prepareStatement(sql.toString());
-		comando.setString(1, c.getNome());
-		comando.setString(2, c.getTelefone());
-		comando.setDate(3, new java.sql.Date(c.getDataNasc().getTime()));
-		comando.setString(4, c.getEndereco());
-		comando.setString(5, c.getObservacao());
-		comando.setLong(6, c.getCodigo());
+		
+		comando.setInt(1, c.getTipoUsuario());
+		comando.setString(2, c.getNome());
+		comando.setString(3, c.getTelefone());
+		comando.setString(4, c.getRg());
+		comando.setString(5, c.getEndereco());
+		comando.setString(6, c.getLogin());
+		comando.setString(7, c.getEspecialidade());
+		comando.setLong(8, c.getIdUsuario());
 
 		comando.executeUpdate();
 
 	}
+	
+	
+	public Usuario buscarPorCodigo(Usuario c) throws SQLException {
+		StringBuilder sql = new StringBuilder();
+		sql.append("SELECT senha");
+		sql.append("FROM usuario ");
+		sql.append("WHERE = ? ");
 
+		Connection conexao = ConexaoFactory.conectar();
+
+		PreparedStatement comando = conexao.prepareStatement(sql.toString());
+		comando.setLong(1, c.getIdUsuario());
+
+		ResultSet resultado = comando.executeQuery();
+
+		Usuario retorno = null;
+
+		while (resultado.next()) {
+			retorno = new Usuario();
+			retorno.setIdUsuario(resultado.getLong("usuario_id"));
+			retorno.setSenha(resultado.getString("senha"));
+			
+		}
+
+		return retorno;
+
+	}
+	
+	
+	
+	public void excluir(Usuario c) throws SQLException {
+		StringBuilder sql = new StringBuilder();
+
+		sql.append("DELETE FROM usuario ");
+		sql.append("WHERE usuario_id = ? ");
+
+		Connection conexao = ConexaoFactory.conectar();
+
+		java.sql.PreparedStatement comando = conexao.prepareStatement(sql.toString());
+		comando.setLong(1, c.getIdUsuario());
+
+		comando.executeUpdate();
+
+	}
+	
+	
+
+	public static void main(String[] args)
+	{
+		Usuario user = new Usuario();
+		user.setIdUsuario(6L);
+		user.setTipoUsuario(10);
+		user.setNome("manoela");
+		user.setLogin("manu");
+		user.setSenha("123");
+		
+		UsuarioDAO dao = new UsuarioDAO();
+		
+		try{
+			dao.editar(user);
+			System.out.println("Secretaria editado com sucesso");
+		}catch(SQLException ex){
+			System.out.println("não foi possivel editar a Secretaria "+ex.getMessage());
+		}
+	}
 	
 		
 
