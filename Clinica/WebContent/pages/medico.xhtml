@@ -13,16 +13,19 @@
 	</ui:define>
 
 	<ui:define name="conteudo">
-		<h:form>
-			<p:dataTable emptyMessage="Nenhum registro encontrado."
-				value="#{MBCliente.itens}" var="item" paginator="true" rows="20">
+		<h:form id="formMedico">
+			<p:dataTable id="tblMedico" widgetVar="tabelaMedico"
+				emptyMessage="Nenhum registro encontrado."
+				value="#{MBUsuario.itens}" var="item"
+				filteredValue="#{MBUsuario.itensFiltrados}" paginator="true"
+				rows="10">
 
 				<f:facet name="header">
 					Tabela de Medicos
 				</f:facet>
-				<p:column headerText="Código" sortBy="#{item.codigo}"
-					filterBy="#{item.codigo}">
-					<h:outputText value="#{item.codigo}" />
+				<p:column headerText="Código" sortBy="#{item.idUsuario}"
+					filterBy="#{item.idUsuario}">
+					<h:outputText value="#{item.idUsuario}" />
 				</p:column>
 
 				<p:column headerText="Nome" sortBy="#{item.nome}"
@@ -45,77 +48,78 @@
 				<p:column headerText="Login">
 					<h:outputText value="#{item.login}" />
 				</p:column>
-				<p:column headerText="Especialidades">
-					<h:outputText value="#{item.especialidades}" />
+
+				<p:column headerText="Especialidades"
+					sortBy="#{item.especialidade}" filterBy="#{item.especialidade}">
+					<h:outputText value="#{item.especialidade}" />
 				</p:column>
 
-				<p:column style="width:32px;text-align: center">
-					<p:commandButton icon="ui-icon-edit"
-						actionListener="#{dfCarsView.selectCarFromDialog(car)}" />
-					<p:commandButton icon="ui-icon-times"
-						actionListener="#{dfCarsView.selectCarFromDialog(car)}" />
-				</p:column>
+				
 
 				<f:facet name="footer">
-					<p:commandButton value="Novo Cadastro"
-						onclick="PF('dlgFuncionarioNovo').show();" />
-						
+					<p:commandButton value="Novo Cadastro" 
+						actionListener="#{MBUsuario.prepararNovoUsuario}"
+						oncomplete="PF('dlgMedicoNovo').show();"
+						update=":formNovoMedico:pnlNovoMedico" />
 				</f:facet>
-
+				
+				
 			</p:dataTable>
 		</h:form>
 
-		<p:dialog widgetVar="dlgFuncionarioNovo" closable="true"
+		<p:dialog widgetVar="dlgMedicoNovo" closable="true"
 			draggable="false" resizable="false" modal="true" appendTo="@(body)"
 			header="Novo Cadastro">
+			
+			
+			
 
-			<h:form id="form">
-				<p:panel id="panel">
-					<p:messages id="msgs" />
-					<h:panelGrid columns="2" cellpadding="2">
+			<h:form id="formNovoMedico">
+				
+					<h:panelGrid id="pnlNovoMedico" columns="2">
 
 						<h:outputLabel for="nome" value="Nome:" />
-						<p:inputText id="nome" value="#{BeanCliente.medico.nome}"
+						<p:inputText id="nome" value="#{MBUsuario.usuario.nome}"
 							required="true" label="Nome" requiredMessage="NOME é obrigatorio"
 							size="30" maxlength="45" />
 
 
 						<h:outputLabel value="Telefone:" />
-						<p:inputMask id="telefone" mask="(99)9999-9999" size="30" />
+						<p:inputMask id="telefone"  mask="(99)9999-9999" value="#{MBUsuario.usuario.telefone}" size="30" />
 
 						<h:outputLabel for="rg" value="Rg:" />
 						<p:inputMask id="rg" mask="99.999.999-9"
-							value="#{BeanCliente.cliente.RG}" required="true" label="RG"
+							value="#{MBUsuario.usuario.rg}" required="true" label="RG"
 							requiredMessage="RG é obrigatorio" size="30" />
 
 						<p:outputLabel value="Endereço: " />
-						<p:inputText size="30" maxlength="45" />
+						<p:inputText size="30" maxlength="45" value="#{MBUsuario.usuario.endereco}"/>
 
 						<h:outputLabel value="Login:" />
-						<p:inputText size="30" maxlength="25"></p:inputText>
+						<p:inputText size="30" maxlength="25" value="#{MBUsuario.usuario.login}"></p:inputText>
 
 						<h:outputLabel for="pwd1" value="Nova senha: " />
-						<p:password id="pwd1" value="#{passwordView.password5}"
-							match="pwd2" label="Password 1" required="true" size="30"
-							feedback="true" promptLabel="fraca" weakLabel="razoavel"
-							goodLabel="bom" strongLabel="muito bom" />
+					<p:password id="pwd1" value="#{MBUsuario.usuario.senha}"
+						match="pwd2" label="Password 1" required="true" size="30"
+						feedback="true" promptLabel="fraca" weakLabel="razoavel"
+						goodLabel="bom" strongLabel="muito bom" />
 
-						<h:outputLabel for="pwd2" value="Redigitar a senha: " />
-						<p:password id="pwd2" value="#{passwordView.password5}"
-							label="Password 2" required="true" size="30" />
+					<h:outputLabel for="pwd2" value="Redigitar a senha: " />
+					<p:password id="pwd2" value="#{MBUsuario.usuario.senha}"
+						label="Password 2" required="true" size="30" />
 
 						<p:outputLabel value="Especialidades: " />
-						<p:inputTextarea rows="6" cols="32" />
+						<p:inputTextarea rows="6" cols="32" value="#{MBUsuario.usuario.especialidade}"/>
 
 					</h:panelGrid>
 
-					<h:panelGrid columns="2" >
-						<p:commandButton id="btn" value="Salvar" update="panel"
-							actionListener="#{BeanCliente.Salvar}" />
-						<p:commandButton value="FECHAR" onclick="PF('dlgClienteNovo').hide();" />
-					</h:panelGrid>
-
-				</p:panel>
+					<p:commandButton value="SALVAR"
+						actionListener="#{MBUsuario.Medico}"
+						oncomplete="PF('tabelaMedico').clearFilters(); if(!args.validationFailed) PF('dlgMedicoNovo').hide();  "
+						update=":formMedico:tblMedico :msgGlobal" />
+					<p:commandButton value="FECHAR"
+						onclick="PF('dlgMedicoNovo').hide();" />
+					
 			</h:form>
 
 

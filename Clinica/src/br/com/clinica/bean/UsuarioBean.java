@@ -48,6 +48,8 @@ public class UsuarioBean {
 	@PostConstruct // depois mostra na tela.
 	public void prepararPesquisa() {
 		try {
+			
+			
 
 			UsuarioDAO cDAO = new UsuarioDAO();
 			itens = (ArrayList<Usuario>) cDAO.listar();
@@ -76,6 +78,26 @@ public class UsuarioBean {
 			itens = (ArrayList<Usuario>) dao.listar();
 
 			JSFUtil.adicionarMensagemSucesso("Secretario salvo com sucesso.");
+
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+			JSFUtil.adicionarMensagemErro(ex.getMessage());
+		}
+
+	}
+	
+	public void Medico()
+	{	
+		
+		
+		try {
+			usuario.setTipoUsuario(30);
+			UsuarioDAO dao = new UsuarioDAO();
+			dao.salvar(usuario);
+
+			itens = (ArrayList<Usuario>) dao.listar();
+
+			JSFUtil.adicionarMensagemSucesso("Medico salvo com sucesso.");
 
 		} catch (SQLException ex) {
 			ex.printStackTrace();

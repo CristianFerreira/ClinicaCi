@@ -98,16 +98,16 @@ public class UsuarioDAO {
 	}
 	
 	
-	public Usuario buscarPorCodigo(Usuario c) throws SQLException {
+	public Usuario buscarPorTipo(Usuario c) throws SQLException {
 		StringBuilder sql = new StringBuilder();
-		sql.append("SELECT senha");
+		sql.append("SELECT tipo_usuario");
 		sql.append("FROM usuario ");
 		sql.append("WHERE = ? ");
 
 		Connection conexao = ConexaoFactory.conectar();
 
 		PreparedStatement comando = conexao.prepareStatement(sql.toString());
-		comando.setLong(1, c.getIdUsuario());
+		comando.setLong(1, c.getTipoUsuario());
 
 		ResultSet resultado = comando.executeQuery();
 
@@ -115,8 +115,9 @@ public class UsuarioDAO {
 
 		while (resultado.next()) {
 			retorno = new Usuario();
-			retorno.setIdUsuario(resultado.getLong("usuario_id"));
-			retorno.setSenha(resultado.getString("senha"));
+			retorno.setNome(resultado.getString("nome"));
+			retorno.setTipoUsuario(resultado.getInt("tipo_usuario"));
+			
 			
 		}
 
