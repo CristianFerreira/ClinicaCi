@@ -67,5 +67,10 @@ public class Usuario {
 		this.especialidade = especialidade;
 	}
 	
+	@Override
+	public String toString() {
+		String saida = tipoUsuario + " - " + nome;
+		return saida;
+	}
 	
 }

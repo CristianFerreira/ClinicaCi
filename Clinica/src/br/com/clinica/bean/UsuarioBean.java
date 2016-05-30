@@ -19,6 +19,7 @@ public class UsuarioBean {
 
 	private Usuario usuario;
 	private ArrayList<Usuario> itens;
+	private ArrayList<Usuario> itensMedico;
 	private ArrayList<Usuario> itensFiltrados;
 
 	public Usuario getUsuario() {
@@ -45,6 +46,16 @@ public class UsuarioBean {
 		this.itensFiltrados = itensFiltrados;
 	}
 
+	
+	public ArrayList<Usuario> getItensMedico() {
+		return itensMedico;
+	}
+
+	public void setItensMedico(ArrayList<Usuario> itensMedico) {
+		this.itensMedico = itensMedico;
+	}
+
+	
 	@PostConstruct // depois mostra na tela.
 	public void prepararPesquisa() {
 		try {
@@ -53,6 +64,7 @@ public class UsuarioBean {
 
 			UsuarioDAO cDAO = new UsuarioDAO();
 			itens = (ArrayList<Usuario>) cDAO.listar();
+			itensMedico = (ArrayList<Usuario>) cDAO.listarTipo30();
 
 		} catch (SQLException e) {
 
@@ -61,6 +73,9 @@ public class UsuarioBean {
 		}
 
 	}
+	
+
+
 
 	public void prepararNovoUsuario() {
 		usuario = new Usuario();
@@ -95,7 +110,7 @@ public class UsuarioBean {
 			UsuarioDAO dao = new UsuarioDAO();
 			dao.salvar(usuario);
 
-			itens = (ArrayList<Usuario>) dao.listar();
+			itensMedico = (ArrayList<Usuario>) dao.listarTipo30();
 
 			JSFUtil.adicionarMensagemSucesso("Medico salvo com sucesso.");
 
@@ -124,35 +139,24 @@ public class UsuarioBean {
 		}
 
 	}
-	/*
-	 * public void excluir() {
-	 * 
-	 * try { PacienteDAO dao = new PacienteDAO(); dao.excluir(paciente);
-	 * 
-	 * itens = (ArrayList<Paciente>) dao.listar(); // itens = new
-	 * ListDataModel<Paciente>(lista);
-	 * 
-	 * JSFUtil.adicionarMensagemSucesso("Paciente removido com sucesso."); }
-	 * catch (SQLException ex) {
-	 * 
-	 * ex.printStackTrace(); JSFUtil.adicionarMensagemErro(ex.getMessage()); }
-	 * 
-	 * }
-	 * 
-	 * public void editar() {
-	 * 
-	 * try { UsuarioDAO dao = new UsuarioDAO(); dao.editar(usuario);
-	 * 
-	 * itens = (ArrayList<Usuario>) dao.listar();
-	 * JSFUtil.adicionarMensagemSucesso("Paciente editado com sucesso.");
-	 * 
-	 * } catch (SQLException ex) { ex.printStackTrace();
-	 * JSFUtil.adicionarMensagemErro(ex.getMessage()); }
-	 * 
-	 * }
-	 */
+
 	
-	
+	public void novoUsuarioMedico() {
+		try {
+
+			UsuarioDAO dao = new UsuarioDAO();
+			dao.salvar(usuario);
+
+			itensMedico = (ArrayList<Usuario>) dao.listarTipo30();
+
+			JSFUtil.adicionarMensagemSucesso("Medico salvo com sucesso.");
+
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+			JSFUtil.adicionarMensagemErro(ex.getMessage());
+		}
+
+	}
 	public void excluir() {
 
 		try {
@@ -160,6 +164,7 @@ public class UsuarioBean {
 			dao.excluir(usuario);
 
 			itens = (ArrayList<Usuario>) dao.listar();
+			itensMedico = (ArrayList<Usuario>) dao.listarTipo30();
 			// itens = new ListDataModel<Paciente>(lista);
 
 			JSFUtil.adicionarMensagemSucesso("Secretario removido com sucesso.");
@@ -170,6 +175,8 @@ public class UsuarioBean {
 		}
 
 	}
+	
+	
 	
 	public void editar() {
 
@@ -186,6 +193,29 @@ public class UsuarioBean {
 		
 
 			JSFUtil.adicionarMensagemSucesso("Secretario editado com sucesso.");
+
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+			JSFUtil.adicionarMensagemErro(ex.getMessage());
+		}
+
+	}
+	
+	public void editarMedico() {
+
+		try {
+			usuario.setTipoUsuario(30);
+						
+			UsuarioDAO dao = new UsuarioDAO();	
+			
+			
+			dao.editar(usuario);
+		
+
+			itensMedico = (ArrayList<Usuario>) dao.listarTipo30();
+		
+
+			JSFUtil.adicionarMensagemSucesso("Medico editado com sucesso.");
 
 		} catch (SQLException ex) {
 			ex.printStackTrace();

@@ -35,16 +35,15 @@ public class UsuarioDAO {
 
 			comando.executeUpdate();
 		} catch (SQLException e) {
-			System.out.println("Não foi possivel inserir!" +e.getMessage());
+			System.out.println("Não foi possivel inserir!" + e.getMessage());
 		}
-			
 
 	}
 
 	// PESQUISA_LISTA
 	public List<Usuario> listar() throws SQLException {
 		StringBuilder sql = new StringBuilder();
-		sql.append("SELECT * FROM usuario ORDER BY nome ASC");
+		sql.append("SELECT * FROM usuario WHERE tipo_usuario = 10  ORDER BY nome ASC ");
 
 		Connection conexao = ConexaoFactory.conectar();
 
@@ -71,19 +70,52 @@ public class UsuarioDAO {
 
 		return lista;
 	}
-
 	
+	
+	public List<Usuario> listarTipo30() throws SQLException {
+		StringBuilder sql = new StringBuilder();
+		sql.append("SELECT * FROM usuario WHERE tipo_usuario = 30  ORDER BY nome ASC ");
+		
+
+		Connection conexao = ConexaoFactory.conectar();
+		
+
+		PreparedStatement comando = conexao.prepareStatement(sql.toString());
+
+		ResultSet resultado = comando.executeQuery();
+
+		List<Usuario> lista = new ArrayList<Usuario>();
+
+		while (resultado.next()) {
+			Usuario c = new Usuario();
+			c.setIdUsuario(new Long(resultado.getInt("usuario_id")));
+			c.setTipoUsuario(resultado.getInt("tipo_usuario"));
+			c.setNome(resultado.getString("nome"));
+			c.setTelefone(resultado.getString("telefone"));
+			c.setRg(resultado.getString("rg"));
+			c.setEndereco(resultado.getString("endereco"));
+			c.setLogin(resultado.getString("login"));
+			c.setSenha(resultado.getString("senha"));
+			c.setEspecialidade(resultado.getString("especialidades"));
+
+			lista.add(c);
+		}
+
+		return lista;
+	}
+
 	public void editar(Usuario c) throws SQLException {
 		StringBuilder sql = new StringBuilder();
 
-		//sql.append("UPDATE pacientes");
-		sql.append("UPDATE usuario SET tipo_usuario = ?, nome = ?, telefone = ?, rg = ?, endereco= ?, login = ?, especialidades = ? WHERE usuario_id = ? ");
-		//sql.append("WHERE codigo = ?");
+		// sql.append("UPDATE pacientes");
+		sql.append(
+				"UPDATE usuario SET tipo_usuario = ?, nome = ?, telefone = ?, rg = ?, endereco= ?, login = ?, especialidades = ? WHERE usuario_id = ? ");
+		// sql.append("WHERE codigo = ?");
 
 		Connection conexao = ConexaoFactory.conectar();
 
 		PreparedStatement comando = conexao.prepareStatement(sql.toString());
-		
+
 		comando.setInt(1, c.getTipoUsuario());
 		comando.setString(2, c.getNome());
 		comando.setString(3, c.getTelefone());
@@ -96,13 +128,12 @@ public class UsuarioDAO {
 		comando.executeUpdate();
 
 	}
-	
-	
+
 	public Usuario buscarPorTipo(Usuario c) throws SQLException {
 		StringBuilder sql = new StringBuilder();
-		sql.append("SELECT tipo_usuario");
+		sql.append("SELECT tipo_usuario, nome ");
 		sql.append("FROM usuario ");
-		sql.append("WHERE = ? ");
+		sql.append("WHERE tipo_usuario = ? ");
 
 		Connection conexao = ConexaoFactory.conectar();
 
@@ -118,15 +149,13 @@ public class UsuarioDAO {
 			retorno.setNome(resultado.getString("nome"));
 			retorno.setTipoUsuario(resultado.getInt("tipo_usuario"));
 			
-			
+
 		}
 
 		return retorno;
 
 	}
-	
-	
-	
+
 	public void excluir(Usuario c) throws SQLException {
 		StringBuilder sql = new StringBuilder();
 
@@ -141,28 +170,54 @@ public class UsuarioDAO {
 		comando.executeUpdate();
 
 	}
-	
-	
 
-	public static void main(String[] args)
-	{
-		Usuario user = new Usuario();
+	public static void main(String[] args) {
+		/*
 		user.setIdUsuario(6L);
 		user.setTipoUsuario(10);
 		user.setNome("manoela");
 		user.setLogin("manu");
 		user.setSenha("123");
+
+		UsuarioDAO dao = new UsuarioDAO();
+
+		try {
+			dao.editar(user);
+			System.out.println("Secretaria editado com sucesso");
+		} catch (SQLException ex) {
+			System.out.println("não foi possivel editar a Secretaria " + ex.getMessage());
+		}
+		Usuario user = new Usuario();
+		user.setTipoUsuario(10);
+		
+
+		UsuarioDAO dao = new UsuarioDAO();
+
+		try {
+			ArrayList<Usuario> lista =  dao.buscarPorTipo(30);
+			for(Usuario u : lista )
+			{
+				System.out.println("Resultado: "+u);
+			}
+			
+		} catch (SQLException ex) {
+			System.out.println("não foi possivel buscar a Secretaria " + ex.getMessage());
+		}*/
 		
 		UsuarioDAO dao = new UsuarioDAO();
 		
-		try{
-			dao.editar(user);
-			System.out.println("Secretaria editado com sucesso");
-		}catch(SQLException ex){
-			System.out.println("não foi possivel editar a Secretaria "+ex.getMessage());
+		try {
+			ArrayList<Usuario> lista = (ArrayList<Usuario>) dao.listarTipo30();
+			for(Usuario u : lista)
+			{
+				System.out.println("Resultado: "+u);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("erro");
 		}
 	}
 	
-		
 
 }
