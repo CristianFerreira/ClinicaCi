@@ -8,8 +8,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.model.ListDataModel;
 
-import org.eclipse.persistence.jpa.rs.features.FeatureResponseBuilderImpl;
-
 import br.com.clinica.DAO.PlanoDeSaudeDAO;
 import br.com.clinica.domain.PlanoDeSaude;
 import br.com.clinica.util.JSFUtil;
@@ -66,6 +64,30 @@ public class PlanoDeSaudeBean {
 			
 			JSFUtil.adicionarMensagemSucesso("Plano de Saude salvo com sucesso!");
 		} catch (Exception e) { 
+			e.printStackTrace();
+			JSFUtil.adicionarMensagemErro(e.getMessage());
+		}
+	}
+	
+	public void prepararExcluir()
+	{
+		planoDeSaude = itens.getRowData();
+	}
+	
+	public void excluir()
+	{
+		try
+		{
+			PlanoDeSaudeDAO planoDAO = new PlanoDeSaudeDAO();
+			planoDAO.excluir(planoDeSaude);
+			
+			List<PlanoDeSaude> lista = planoDAO.listar();
+			itens = new ListDataModel<PlanoDeSaude>(lista);
+			
+			JSFUtil.adicionarMensagemSucesso("Plano de Saude ecluido com sucesso!");
+		}
+		catch(Exception e)
+		{ 
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
 		}

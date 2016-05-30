@@ -30,14 +30,19 @@
 					filterBy="#{item.nome}">
 					<h:outputText value="#{item.nome}" />
 				</p:column>
-				<!--				
-				<p:column headerText="Opções" style="width:75pt;text-align: center">
-					<p:commandButton icon="ui-icon-edit"
-						actionListener="#{dfCarsView.selectCarFromDialog(car)}" />
-					<p:commandButton icon="ui-icon-times"
-						actionListener="#{dfCarsView.selectCarFromDialog(car)}" />
+
+				<p:column headerText="Opções"
+					style="width:200px; text-align: center">
+					<p:commandButton icon="ui-icon-pencil" value="Editar">
+					</p:commandButton>
+
+					<p:commandButton style="color:#700000 ;" icon="ui-icon-trash"
+						value="Excluir" actionListener="#{MBPlano.prepararExcluir}"
+						oncomplete="PF('dlgPlanoExcluir').show();"
+						update=":formPlanoExcluir:pnlPlanoExcluir">
+					</p:commandButton>
 				</p:column>
--->
+
 				<f:facet name="footer">
 					<p:commandButton value="Novo Cadastro"
 						actionListener="#{MBPlano.prepararNovo}"
@@ -60,9 +65,32 @@
 				</h:panelGrid>
 				<h:panelGrid columns="2">
 					<p:commandButton value="Salvar" actionListener="#{MBPlano.novo}"
-						oncomplete="PF('dlgPlanoNovo').hide()"
+						oncomplete="PF('dlgPlanoNovo').hide();"
 						update=":formPlaListagem:tblPlanos :msgGlobal" />
-					<p:commandButton value="Fechar" onclick="PF('dlgPlanoNovo').hide()" />
+					<p:commandButton value="Fechar"
+						onclick="PF('dlgPlanoNovo').hide();" />
+				</h:panelGrid>
+			</h:form>
+		</p:dialog>
+
+		<p:dialog widgetVar="dlgPlanoExcluir" header="Excluir Plano de Saúde?"
+			closable="false" modal="true" appendTo="@(body)"
+			draggable="false" resizable="false">
+			<h:form id="formPlanoExcluir">
+				<h:panelGrid id="pnlPlanoExcluir" columns="2">
+					<h:outputText value="Código: " />
+					<h:outputText value="#{MBPlano.planoDeSaude.idPlano}" />
+
+					<h:outputText value="Nome: " />
+					<h:outputText value="#{MBPlano.planoDeSaude.nome}" />
+				</h:panelGrid>
+				<h:panelGrid columns="2">
+					<h:commandButton value="Excluir"
+						actionListener="#{MBPlano.excluir}"
+						oncomplete="PF('dlgPlanoExcluir').hide()"
+						update=":formPlaListagem:tblPlanos :msgGlobal" />
+					<h:commandButton value="Cancelar"
+						onclick="PF('dlgPlanoExcluir').hide();" />
 				</h:panelGrid>
 			</h:form>
 		</p:dialog>

@@ -53,4 +53,19 @@ public class PlanoDeSaudeDAO {
 		
 		return lista;
 	}
+	
+	public void excluir(PlanoDeSaude plano) throws SQLException
+	{
+		StringBuilder sql = new StringBuilder();
+		
+		sql.append("DELETE FROM planos_de_saude WHERE id_plano = ? ");
+		
+		Connection conexao = ConexaoFactory.conectar();
+		
+		java.sql.PreparedStatement comando = conexao.prepareStatement(sql.toString());
+		comando.setLong(1, plano.getIdPlano());
+
+		comando.executeUpdate();
+	}
+	
 }
