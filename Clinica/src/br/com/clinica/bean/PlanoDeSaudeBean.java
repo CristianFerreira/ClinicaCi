@@ -63,8 +63,11 @@ public class PlanoDeSaudeBean {
 			
 			List<PlanoDeSaude> lista = planoDAO.listar();
 			itens = new ListDataModel<PlanoDeSaude>(lista);
+			
+			JSFUtil.adicionarMensagemSucesso("Plano de Saude salvo com sucesso!");
 		} catch (Exception e) { 
 			e.printStackTrace();
+			JSFUtil.adicionarMensagemErro(e.getMessage());
 		}
 	}
 }

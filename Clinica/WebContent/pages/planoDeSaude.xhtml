@@ -61,7 +61,7 @@
 				<h:panelGrid columns="2">
 					<p:commandButton value="Salvar" actionListener="#{MBPlano.novo}"
 						oncomplete="PF('dlgPlanoNovo').hide()"
-						update=":formPlaListagem:tblPlanos" />
+						update=":formPlaListagem:tblPlanos :msgGlobal" />
 					<p:commandButton value="Fechar" onclick="PF('dlgPlanoNovo').hide()" />
 				</h:panelGrid>
 			</h:form>
