@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="/templates/modeloSistema.xhtml">
+
+
+	<ui:define name="menu">
+		<ui:include src="/includes/menuPrincipal.xhtml" />
+	</ui:define>
+
+	<ui:define name="conteudo">
+		<h:form>
+			<p:dataTable emptyMessage="Nenhum registro encontrado."
+				value="#{MBCliente.itens}" var="item" paginator="true" rows="20">
+
+				<f:facet name="header">
+					Tabela de Consultas
+				</f:facet>
+				<p:column headerText="Código" sortBy="#{item.codigo}"
+					filterBy="#{item.codigo}">
+					<h:outputText value="#{item.codigo}" />
+				</p:column>
+
+				<p:column headerText="Paciente" sortBy="#{item.nome}"
+					filterBy="#{item.nome}">
+					<h:outputText value="#{item.nome}" />
+				</p:column>
+				
+				<p:column headerText="Medico" sortBy="#{item.nome}"
+					filterBy="#{item.nome}">
+					<h:outputText value="#{item.nome}" />
+				</p:column>
+				
+				<p:column headerText="Plano de Saúde" sortBy="#{item.nome}"
+					filterBy="#{item.nome}">
+					<h:outputText value="#{item.nome}" />
+				</p:column>
+
+				<p:column headerText="Data " sortBy="#{item.nome}"
+					filterBy="#{item.nome}">
+					<h:outputText value="#{item.nome}" />
+				</p:column>
+				
+				<p:column headerText="Horário" sortBy="#{item.nome}"
+					filterBy="#{item.nome}">
+					<h:outputText value="#{item.nome}" />
+				</p:column>
+
+				<p:column style="width:32px;text-align: center">
+					<p:commandButton icon="ui-icon-edit"
+						actionListener="#{dfCarsView.selectCarFromDialog(car)}" />
+					<p:commandButton icon="ui-icon-times"
+						actionListener="#{dfCarsView.selectCarFromDialog(car)}" />
+				</p:column>
+
+				<f:facet name="footer">
+					<p:commandButton value="Novo Cadastro"
+						onclick="PF('dlgConsultaNova').show();" />
+						
+				</f:facet>
+
+			</p:dataTable>
+		</h:form>
+
+		<p:dialog widgetVar="dlgConsultaNova" closable="true"
+			draggable="false" resizable="false" modal="true" appendTo="@(body)"
+			header="Novo Cadastro">
+
+			<h:form id="form">
+				<p:panel id="panel">
+					<p:messages id="msgs" />
+					<h:panelGrid columns="2" cellpadding="2">
+
+						<h:outputLabel for="nomePaciente" value="Paciente:" />
+						<p:inputText id="nomePaciente" value="#{BeanCliente.medico.nome}"
+							required="true" label="Nome" requiredMessage="NOME é obrigatorio"
+							size="30" maxlength="45" />
+							
+							<h:outputLabel for="nomeMedico" value="Medico:" />
+						<p:inputText id="nomeMedico" value="#{BeanCliente.medico.nome}"
+							required="true" label="Nome" requiredMessage="NOME é obrigatorio"
+							size="30" maxlength="45" />
+							
+							<h:outputLabel for="nomePlano" value="Plano de Saude:" />
+						<p:inputText id="nomePlano" value="#{BeanCliente.medico.nome}"
+							required="true" label="Nome" requiredMessage="NOME é obrigatorio"
+							size="30" maxlength="45" />
+
+					
+
+						<p:outputLabel value="Data " />
+						<p:inputMask mask="99/99/9999" size="30"/>
+
+						<h:outputLabel value="Horário" />
+						<p:inputMask mask="99:99" size="30"/>
+
+					
+
+						<p:outputLabel value="Observações: " />
+						<p:inputTextarea rows="6" cols="32" />
+
+					</h:panelGrid>
+
+					<h:panelGrid columns="2" >
+						<p:commandButton id="btn" value="Salvar" update="panel"
+							actionListener="#{BeanCliente.Salvar}" />
+						<p:commandButton value="FECHAR" onclick="PF('dlgConsultaNova').hide();" />
+					</h:panelGrid>
+					
+				</p:panel>
+			</h:form>
+
+
+		</p:dialog>
+
+	</ui:define>
+</ui:composition>

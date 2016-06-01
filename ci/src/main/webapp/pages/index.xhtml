@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	template="/templates/modeloSistema.xhtml">
+
+	<h:outputStylesheet library="css" name="indexEstilos.css" />
+
+	<ui:define name="menu">
+		<div class="ui-grid ui-grid-responsive">
+			<div class="ui-grid-row">
+				<div class="ui-grid-col-1"></div>
+				<div class="ui-grid-col-6">
+					<p:link outcome="index" value="Clinica CI"
+						style="color: white !important; font-size: 40px !important; font-family: serif !important; text-decoration: none;" />
+				</div>
+				<div class="ui-grid-col-4">
+					<p:inputText style="margin-right:10px" placeholder="login" />
+					<p:inputText style="margin-right:10px; margin-top:10px;" placeholder="senha" />
+					<p:commandButton type="button" value="Login" />
+				</div>
+				<div class="ui-grid-col-1"></div>
+			</div>
+		</div>
+	</ui:define>
+
+	<ui:define name="conteudo">
+	</ui:define>
+
+</ui:composition>

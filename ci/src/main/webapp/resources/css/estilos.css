@@ -1,0 +1,37 @@
+@CHARSET "ISO-8859-1";
+
+.ui-layout-north {
+	z-index: 20 !important;
+	overflow: visible !important;;
+}
+
+.ui-layout-north .ui-layout-unit-content {
+	overflow: visible !important;
+}
+
+.ui-widget, .ui-widget .ui-widget {
+	font-size: 12px !important;
+}
+
+.centralizar-conteudo{
+	text-align:center;
+	margin-top: ;
+}
+.centralizar-menu{
+	margin: auto;
+	 
+}
+.acess{
+	
+	margin-left: 90%;
+	margin-top:  40%;
+}
+
+.zerar-padding{
+	padding: 0px !important;
+}
+
+.menu-login{
+	background-color: #04416F;
+	height: 75px;
+}

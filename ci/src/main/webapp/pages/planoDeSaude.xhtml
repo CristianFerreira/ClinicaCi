@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="/templates/modeloSistema.xhtml">
+
+	<ui:define name="menu">
+		<ui:include src="/includes/menuPrincipal.xhtml" />
+	</ui:define>
+
+	<ui:define name="conteudo">
+
+		<h:form id="formPlaListagem">
+			<p:dataTable id="tblPlanos"
+				emptyMessage="Nenhum registro encontrado." value="#{MBPlano.itens}"
+				var="item" paginator="true" rows="15">
+
+				<f:facet name="header">
+					Tabela de Planos de Saúde
+				</f:facet>
+				<p:column headerText="Código" sortBy="#{item.idPlano}"
+					filterBy="#{item.idPlano}">
+					<h:outputText value="#{item.idPlano}" />
+				</p:column>
+
+				<p:column headerText="Nome" sortBy="#{item.nome}"
+					filterBy="#{item.nome}">
+					<h:outputText value="#{item.nome}" />
+				</p:column>
+
+				<p:column headerText="Opções"
+					style="width:200px; text-align: center">
+					<p:commandButton icon="ui-icon-pencil" value="Editar">
+					</p:commandButton>
+
+					<p:commandButton style="color:#700000 ;" icon="ui-icon-trash"
+						value="Excluir" actionListener="#{MBPlano.prepararExcluir}"
+						oncomplete="PF('dlgPlanoExcluir').show();"
+						update=":formPlanoExcluir:pnlPlanoExcluir">
+					</p:commandButton>
+				</p:column>
+
+				<f:facet name="footer">
+					<p:commandButton value="Novo Cadastro"
+						actionListener="#{MBPlano.prepararNovo}"
+						oncomplete="PF('dlgPlanoNovo').show();"
+						update=":formPlanoNovo:pnlPlanoNovo" />
+				</f:facet>
+
+			</p:dataTable>
+		</h:form>
+
+
+		<p:dialog widgetVar="dlgPlanoNovo" header="Cadastrar Plano de Saúde"
+			closable="true" modal="true" appendTo="@(body)" height="100"
+			draggable="false" resizable="false">
+			<h:form id="formPlanoNovo">
+				<h:panelGrid id="pnlPlanoNovo" columns="2">
+					<p:outputLabel value="Nome:" />
+					<p:inputText size="30" maxlength="50"
+						value="#{MBPlano.planoDeSaude.nome}" />
+				</h:panelGrid>
+				<h:panelGrid columns="2">
+					<p:commandButton value="Salvar" actionListener="#{MBPlano.novo}"
+						oncomplete="PF('dlgPlanoNovo').hide();"
+						update=":formPlaListagem:tblPlanos :msgGlobal" />
+					<p:commandButton value="Fechar"
+						onclick="PF('dlgPlanoNovo').hide();" />
+				</h:panelGrid>
+			</h:form>
+		</p:dialog>
+
+		<p:dialog widgetVar="dlgPlanoExcluir" header="Excluir Plano de Saúde?"
+			closable="false" modal="true" appendTo="@(body)"
+			draggable="false" resizable="false">
+			<h:form id="formPlanoExcluir">
+				<h:panelGrid id="pnlPlanoExcluir" columns="2">
+					<h:outputText value="Código: " />
+					<h:outputText value="#{MBPlano.planoDeSaude.idPlano}" />
+
+					<h:outputText value="Nome: " />
+					<h:outputText value="#{MBPlano.planoDeSaude.nome}" />
+				</h:panelGrid>
+				<h:panelGrid columns="2">
+					<h:commandButton value="Excluir"
+						actionListener="#{MBPlano.excluir}"
+						oncomplete="PF('dlgPlanoExcluir').hide()"
+						update=":formPlaListagem:tblPlanos :msgGlobal" />
+					<h:commandButton value="Cancelar"
+						onclick="PF('dlgPlanoExcluir').hide();" />
+				</h:panelGrid>
+			</h:form>
+		</p:dialog>
+
+
+	</ui:define>
+</ui:composition>

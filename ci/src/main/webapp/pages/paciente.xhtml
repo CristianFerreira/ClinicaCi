@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="/templates/modeloSistema.xhtml">
+
+	<ui:define name="menu">
+		<ui:include src="/includes/menuPrincipal.xhtml" />
+	</ui:define>
+
+	<ui:define name="conteudo">
+		<h:form id="formPacientes">
+			<p:dataTable id="tblPacientes" widgetVar="tabelaPaciente"
+				emptyMessage="Nenhum registro encontrado."
+				value="#{MBPaciente.itens}" var="item" filteredValue="#{MBPaciente.itensFiltrados}"
+				paginator="true" rows="10">
+
+				<f:facet name="header">
+					Tabela de Pacientes
+				</f:facet>
+				<p:column headerText="Código" sortBy="#{item.codigo}"
+					filterBy="#{item.codigo}" style="width:auto;text-align: center">
+					<h:outputText value="#{item.codigo}" />
+				</p:column>
+
+				<p:column headerText="Nome" sortBy="#{item.nome}"
+					filterBy="#{item.nome}">
+					<h:outputText value="#{item.nome}" />
+				</p:column>
+
+				<p:column headerText="Telefone">
+					<h:outputText value="#{item.telefone}" />
+				</p:column>
+
+				<p:column headerText="Data nascimento">
+					<h:outputText value="#{item.dataNasc}" />
+				</p:column>
+
+				<p:column headerText="Endereço">
+					<h:outputText value="#{item.endereco}" />
+				</p:column>
+
+				<p:column headerText="Observações">
+					<h:outputText value="#{item.observacao}" />
+				</p:column>
+				
+			  <p:column headerText="Opções" style="width:auto;text-align: center">	
+				<p:commandButton icon="ui-icon-pencil" value="Editar"
+					oncomplete="PF('dlgPacEditar').show();"
+					update=":formPacEditar:pnlPacEditar" >
+					<f:setPropertyActionListener target="#{MBPaciente.paciente}" value="#{item}"/>
+				</p:commandButton>
+				
+				
+					<p:commandButton style="color:#700000;" icon="ui-icon-trash" value="Excluir"
+						oncomplete="PF('dlgPacExcluir').show();"
+						update=":formPacExcluir:pnlPacExcluir" >
+						<f:setPropertyActionListener  target="#{MBPaciente.paciente}" value="#{item}"/>
+					</p:commandButton>
+				</p:column>
+
+				<f:facet name="footer">
+					<p:commandButton value="Novo Cadastro"
+						actionListener="#{MBPaciente.prepararNovoPaciente}"
+						oncomplete="PF('dlgClienteNovo').show();" update=":formNovoPacientes:pnlNovoPacientes"/>
+				</f:facet>
+
+			</p:dataTable>
+		</h:form>
+
+		<p:dialog widgetVar="dlgClienteNovo" closable="true" draggable="false"
+			resizable="false" modal="true" appendTo="@(body)"
+			header="Cadastrar Paciente">
+
+			<h:form id="formNovoPacientes">
+				<h:panelGrid id="pnlNovoPacientes" columns="2">
+					<p:outputLabel value="Nome: " />
+					<p:inputText size="30" maxlength="45"
+						value="#{MBPaciente.paciente.nome}" />
+
+					<p:outputLabel value="Telefone: " />
+					<p:inputMask size="30" maxlength="11"
+						value="#{MBPaciente.paciente.telefone}" mask="(99)9999-9999" />
+
+
+					<p:outputLabel for="german" value="Data nascimento:" />
+					<p:calendar locale="pt" id="german"
+						value="#{MBPaciente.paciente.dataNasc}" yearRange="c-100:c"
+						navigator="true" pattern="dd-mm-yyyy" size="30" />
+
+
+					<p:outputLabel value="Endereço: " />
+					<p:inputText size="30" maxlength="45"
+						value="#{MBPaciente.paciente.endereco}" />
+
+					<p:outputLabel value="Observações: " />
+					<p:inputTextarea rows="6" cols="32"
+						value="#{MBPaciente.paciente.observacao}" />
+				</h:panelGrid>
+
+				<h:panelGrid columns="2">
+					<p:commandButton value="SALVAR"
+						actionListener="#{MBPaciente.novoPaciente}"
+						oncomplete="PF('dlgClienteNovo').hide(); PF('tabelaPaciente').clearFilters();"
+						update=":formPacientes:tblPacientes :msgGlobal" />
+					<p:commandButton value="FECHAR"
+						onclick="PF('dlgClienteNovo').hide();" />
+				</h:panelGrid>
+			</h:form>
+		</p:dialog>
+
+		<p:dialog widgetVar="dlgPacExcluir" closable="false" draggable="false"
+			resizable="false" modal="true" appendTo="@(body)"
+			header="Paciente - Excluir">
+
+			<h:form id="formPacExcluir">
+				<h:panelGrid id="pnlPacExcluir" columns="2">
+					<h:outputText value="Código:" />
+					<h:outputText value="#{MBPaciente.paciente.codigo}" />
+
+					<h:outputText value="Nome:" />
+					<h:outputText value="#{MBPaciente.paciente.nome}" />
+
+				</h:panelGrid>
+				<h:panelGrid columns="2">
+					<p:commandButton style="color:#700000;" value="Excluir"
+						actionListener="#{MBPaciente.excluir}"
+						oncomplete="PF('dlgPacExcluir').hide(); PF('tabelaPaciente').clearFilters();"
+						update=":formPacientes:tblPacientes :msgGlobal" />
+					<p:commandButton value="Cancelar"
+						onclick="PF('dlgPacExcluir').hide();" />
+				</h:panelGrid>
+			</h:form>
+		</p:dialog>
+
+		<p:dialog widgetVar="dlgPacEditar" closable="false" draggable="false"
+			resizable="false" modal="true" appendTo="@(body)"
+			header="Paciente - Editar">
+			<h:form id="formPacEditar">
+				<h:panelGrid id="pnlPacEditar" columns="2">
+					<p:outputLabel value="Código" />
+					<h:outputText value="#{MBPaciente.paciente.codigo}" />
+
+					<p:outputLabel value="Nome: "></p:outputLabel>
+					<p:inputText size="30" maxlength="45"
+						value="#{MBPaciente.paciente.nome}" />
+
+					<p:outputLabel value="Telefone: " />
+					<p:inputMask size="30" maxlength="11"
+						value="#{MBPaciente.paciente.telefone}" mask="(99)9999-9999" />
+
+
+					<p:outputLabel for="german" value="Data nascimento:" />
+					<p:calendar locale="pt" id="german"
+						value="#{MBPaciente.paciente.dataNasc}" yearRange="c-100:c"
+						navigator="true" pattern="dd-mm-yyyy" size="30" />
+
+
+					<p:outputLabel value="Endereço: " />
+					<p:inputText size="30" maxlength="45"
+						value="#{MBPaciente.paciente.endereco}" />
+
+					<p:outputLabel value="Observações: " />
+					<p:inputTextarea rows="6" cols="32"
+						value="#{MBPaciente.paciente.observacao}" />
+
+				</h:panelGrid>
+
+				<h:panelGrid columns="2">
+					<p:commandButton value="Editar"
+						actionListener="#{MBPaciente.editar}"
+						oncomplete="PF('dlgPacEditar').hide(); PF('tabelaPaciente').clearFilters(); " 
+						update=":formPacientes:tblPacientes :msgGlobal" />
+					<p:commandButton value="Cancelar"
+						onclick="PF('dlgPacEditar').hide();" />
+				</h:panelGrid>
+
+			</h:form>
+
+		</p:dialog>
+	</ui:define>
+</ui:composition>
