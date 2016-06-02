@@ -57,9 +57,24 @@ public class PlanoDeSaudeDAO {
 
 		Connection conexao = ConexaoFactory.conectar();
 
-		java.sql.PreparedStatement comando = conexao.prepareStatement(sql.toString());
+		PreparedStatement comando = conexao.prepareStatement(sql.toString());
 		comando.setLong(1, plano.getIdPlano());
 
+		comando.executeUpdate();
+	}
+	
+	public void editar(PlanoDeSaude plano) throws SQLException 
+	{
+		StringBuilder sql = new StringBuilder();
+		
+		sql.append("UPDATE planos_de_saude SET nome = ? WHERE id_plano = ?");
+		
+		Connection conexao = ConexaoFactory.conectar();
+		
+		PreparedStatement comando = conexao.prepareStatement(sql.toString());
+		comando.setString(1, plano.getNome());
+		comando.setLong(2, plano.getIdPlano());
+		
 		comando.executeUpdate();
 	}
 

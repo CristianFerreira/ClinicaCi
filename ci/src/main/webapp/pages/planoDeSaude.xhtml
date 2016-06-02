@@ -33,7 +33,10 @@
 
 				<p:column headerText="Opções"
 					style="width:200px; text-align: center">
-					<p:commandButton icon="ui-icon-pencil" value="Editar">
+					<p:commandButton icon="ui-icon-pencil" value="Editar"
+						actionListener="#{MBPlano.prepararEditar}"
+						oncomplete="PF('dlgPlanoEditar').show();"
+						update=":formPlanoEditar:pnlPlanoEditar">
 					</p:commandButton>
 
 					<p:commandButton style="color:#700000 ;" icon="ui-icon-trash"
@@ -74,8 +77,8 @@
 		</p:dialog>
 
 		<p:dialog widgetVar="dlgPlanoExcluir" header="Excluir Plano de Saúde?"
-			closable="false" modal="true" appendTo="@(body)"
-			draggable="false" resizable="false">
+			closable="false" modal="true" appendTo="@(body)" draggable="false"
+			resizable="false">
 			<h:form id="formPlanoExcluir">
 				<h:panelGrid id="pnlPlanoExcluir" columns="2">
 					<h:outputText value="Código: " />
@@ -87,7 +90,7 @@
 				<h:panelGrid columns="2">
 					<h:commandButton value="Excluir"
 						actionListener="#{MBPlano.excluir}"
-						oncomplete="PF('dlgPlanoExcluir').hide()"
+						oncomplete="PF('dlgPlanoExcluir').hide();"
 						update=":formPlaListagem:tblPlanos :msgGlobal" />
 					<h:commandButton value="Cancelar"
 						onclick="PF('dlgPlanoExcluir').hide();" />
@@ -95,6 +98,28 @@
 			</h:form>
 		</p:dialog>
 
+		<p:dialog widgetVar="dlgPlanoEditar" header="Editar Plano de Saúde?"
+			closable="false" modal="true" appendTo="@(body)" draggable="false"
+			resizable="false">
+			<h:form id="formPlanoEditar">
+				<h:panelGrid id="pnlPlanoEditar" columns="2">
+					<h:outputText value="Código: " />
+					<h:outputText value="#{MBPlano.planoDeSaude.idPlano}" />
+
+					<h:outputText value="Nome: " />
+					<h:inputText size="30" maxlength="50"
+						value="#{MBPlano.planoDeSaude.nome}" />
+
+				</h:panelGrid>
+				<h:panelGrid columns="2">
+					<h:commandButton value="Editar" actionListener="#{MBPlano.editar}"
+						oncomplete="PF('dlgPlanoEditar').hide();"
+						update=":formPlaListagem:tblPlanos :msgGlobal" />
+					<h:commandButton value="Cancelar"
+						onclick="PF('dlgPlanoEditar').hide();" />
+				</h:panelGrid>
+			</h:form>
+		</p:dialog>
 
 	</ui:define>
 </ui:composition>

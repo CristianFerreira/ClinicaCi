@@ -84,4 +84,28 @@ public class PlanoDeSaudeBean {
 			JSFUtil.adicionarMensagemErro(e.getMessage());
 		}
 	}
+	
+	public void prepararEditar()
+	{
+		planoDeSaude = itens.getRowData();
+	}
+	
+	public void editar()
+	{
+		PlanoDeSaudeDAO planoDAO = new PlanoDeSaudeDAO();
+		try
+		{
+			planoDAO.editar(planoDeSaude);
+			
+			List<PlanoDeSaude> lista = planoDAO.listar();
+			itens = new ListDataModel<PlanoDeSaude>(lista);
+			
+			JSFUtil.adicionarMensagemSucesso("Plano de Saude editado com sucesso!");
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			JSFUtil.adicionarMensagemErro(e.getMessage());
+		}
+	}
 }
