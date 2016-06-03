@@ -14,9 +14,10 @@
 	<ui:define name="conteudo">
 
 		<h:form id="formPlaListagem">
-			<p:dataTable id="tblPlanos"
+			<p:dataTable id="tblPlanos" widgetVar="tabelaPlanos"
 				emptyMessage="Nenhum registro encontrado." value="#{MBPlano.itens}"
-				var="item" paginator="true" rows="15">
+				var="item" filteredValue="#{MBPlano.itensFiltrados}"
+				paginator="true" rows="15">
 
 				<f:facet name="header">
 					Tabela de Planos de Saúde
@@ -34,15 +35,17 @@
 				<p:column headerText="Opções"
 					style="width:200px; text-align: center">
 					<p:commandButton icon="ui-icon-pencil" value="Editar"
-						actionListener="#{MBPlano.prepararEditar}"
 						oncomplete="PF('dlgPlanoEditar').show();"
 						update=":formPlanoEditar:pnlPlanoEditar">
+						<f:setPropertyActionListener target="#{MBPlano.planoDeSaude}"
+							value="#{item}" />
 					</p:commandButton>
 
 					<p:commandButton style="color:#700000 ;" icon="ui-icon-trash"
-						value="Excluir" actionListener="#{MBPlano.prepararExcluir}"
-						oncomplete="PF('dlgPlanoExcluir').show();"
+						value="Excluir" oncomplete="PF('dlgPlanoExcluir').show();"
 						update=":formPlanoExcluir:pnlPlanoExcluir">
+						<f:setPropertyActionListener target="#{MBPlano.planoDeSaude}"
+							value="#{item}" />
 					</p:commandButton>
 				</p:column>
 
@@ -68,7 +71,7 @@
 				</h:panelGrid>
 				<h:panelGrid columns="2">
 					<p:commandButton value="Salvar" actionListener="#{MBPlano.novo}"
-						oncomplete="PF('dlgPlanoNovo').hide();"
+						oncomplete="PF('dlgPlanoNovo').hide(); PF('tabelaPlanos').clearFilters();"
 						update=":formPlaListagem:tblPlanos :msgGlobal" />
 					<p:commandButton value="Fechar"
 						onclick="PF('dlgPlanoNovo').hide();" />
@@ -90,7 +93,7 @@
 				<h:panelGrid columns="2">
 					<h:commandButton value="Excluir"
 						actionListener="#{MBPlano.excluir}"
-						oncomplete="PF('dlgPlanoExcluir').hide();"
+						oncomplete="PF('dlgPlanoExcluir').hide(); PF('tabelaPlanos').clearFilters();"
 						update=":formPlaListagem:tblPlanos :msgGlobal" />
 					<h:commandButton value="Cancelar"
 						onclick="PF('dlgPlanoExcluir').hide();" />
@@ -113,7 +116,7 @@
 				</h:panelGrid>
 				<h:panelGrid columns="2">
 					<h:commandButton value="Editar" actionListener="#{MBPlano.editar}"
-						oncomplete="PF('dlgPlanoEditar').hide();"
+						oncomplete="PF('dlgPlanoEditar').hide(); PF('tabelaPlanos').clearFilters();"
 						update=":formPlaListagem:tblPlanos :msgGlobal" />
 					<h:commandButton value="Cancelar"
 						onclick="PF('dlgPlanoEditar').hide();" />
