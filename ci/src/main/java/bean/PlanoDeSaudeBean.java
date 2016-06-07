@@ -8,6 +8,8 @@ import javax.faces.bean.ViewScoped;
 
 import main.java.DAO.PlanoDeSaudeDAO;
 import main.java.domain.PlanoDeSaude;
+import main.java.service.PlanoDeSaudeService;
+import main.java.util.ClinicaEntityManager;
 import main.java.util.JSFUtil;
 
 @ManagedBean(name = "MBPlano")
@@ -17,6 +19,8 @@ public class PlanoDeSaudeBean {
 	private PlanoDeSaude planoDeSaude;
 	private ArrayList<PlanoDeSaude> itensFiltrados;
 
+	private PlanoDeSaudeService planoService = new PlanoDeSaudeService(new ClinicaEntityManager("ClinicaPU"));
+	
 	public ArrayList<PlanoDeSaude> getItens() {
 		return itens;
 	}
@@ -24,11 +28,11 @@ public class PlanoDeSaudeBean {
 	public void setItens(ArrayList<PlanoDeSaude> itens) {
 		this.itens = itens;
 	}
-	
+
 	public ArrayList<PlanoDeSaude> getItensFiltrados() {
 		return itensFiltrados;
 	}
-	
+
 	public void setItensFiltrados(ArrayList<PlanoDeSaude> itensFiltrados) {
 		this.itensFiltrados = itensFiltrados;
 	}
@@ -36,10 +40,8 @@ public class PlanoDeSaudeBean {
 	@PostConstruct
 	public void prepararPesquisa() {
 		try {
-			PlanoDeSaudeDAO planoDAO = new PlanoDeSaudeDAO();
-			
-			itens = new ArrayList<PlanoDeSaude>(planoDAO.listar());
-			
+			itens = (ArrayList<PlanoDeSaude>) planoService.findAll();
+
 		} catch (Exception e) {
 			e.printStackTrace(); // rastreia o erro.
 			JSFUtil.adicionarMensagemErro(e.getMessage());
@@ -60,10 +62,9 @@ public class PlanoDeSaudeBean {
 
 	public void novo() {
 		try {
-			PlanoDeSaudeDAO planoDAO = new PlanoDeSaudeDAO();
-			planoDAO.salvar(planoDeSaude);
+			planoService.save(planoDeSaude);
 
-			itens = new ArrayList<PlanoDeSaude>(planoDAO.listar());
+			itens = (ArrayList<PlanoDeSaude>) planoService.findAll();
 
 			JSFUtil.adicionarMensagemSucesso("Plano de Saude salvo com sucesso!");
 		} catch (Exception e) {
@@ -74,10 +75,9 @@ public class PlanoDeSaudeBean {
 
 	public void excluir() {
 		try {
-			PlanoDeSaudeDAO planoDAO = new PlanoDeSaudeDAO();
-			planoDAO.excluir(planoDeSaude);
+			planoService.remove(planoDeSaude);
 
-			itens = new ArrayList<PlanoDeSaude>(planoDAO.listar());
+			itens = (ArrayList<PlanoDeSaude>) planoService.findAll();
 
 			JSFUtil.adicionarMensagemSucesso("Plano de Saude ecluido com sucesso!");
 		} catch (Exception e) {
@@ -85,20 +85,15 @@ public class PlanoDeSaudeBean {
 			JSFUtil.adicionarMensagemErro(e.getMessage());
 		}
 	}
-	
-	public void editar()
-	{
-		PlanoDeSaudeDAO planoDAO = new PlanoDeSaudeDAO();
-		try
-		{
-			planoDAO.editar(planoDeSaude);
-			
-			itens = new ArrayList<PlanoDeSaude>(planoDAO.listar());
-			
+
+	public void editar() {
+		try {
+			planoService.edit(planoDeSaude);
+
+			itens = (ArrayList<PlanoDeSaude>) planoService.findAll();
+
 			JSFUtil.adicionarMensagemSucesso("Plano de Saude editado com sucesso!");
-		}
-		catch(Exception e)
-		{
+		} catch (Exception e) {
 			e.printStackTrace();
 			JSFUtil.adicionarMensagemErro(e.getMessage());
 		}
