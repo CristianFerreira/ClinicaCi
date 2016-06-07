@@ -1,204 +1,94 @@
 package main.java.bean;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
 
+import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+import javax.inject.Named;
+import org.primefaces.context.RequestContext;
+import org.primefaces.event.SelectEvent;
 
-import main.java.DAO.UsuarioDAO;
 import main.java.domain.Usuario;
-import main.java.util.JSFUtil;
+import main.java.service.UsuarioService;
+import main.java.util.ClinicaEntityManager;
 
-@ManagedBean(name = "MBUsuario")
-@ViewScoped
+@Named
+@RequestScoped
 public class UsuarioBean {
 
-	private Usuario usuario;
-	private ArrayList<Usuario> itens;
-	private ArrayList<Usuario> itensMedico;
-	private ArrayList<Usuario> itensFiltrados;
+    private Usuario usuarioCadastrado, usuarioSelecionado;
+    private List<Usuario> usuario, usuarioFiltrados;
 
-	public Usuario getUsuario() {
-		return usuario;
-	}
+    @PostConstruct
+    public void init() {
+        usuarioCadastrado = new Usuario();
+        usuarioSelecionado = new Usuario();
+        usuario = new UsuarioService(new ClinicaEntityManager("ClinicaPU")).findAll();
+    }
 
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
+    public void cadastrarMedico() {
+        usuarioCadastrado.setTipoUsuario(30);
+        new UsuarioService(new ClinicaEntityManager("ClinicaPU")).save(usuarioCadastrado);
+        RequestContext context = RequestContext.getCurrentInstance();
+        context.execute("PF('dialogCadastroMedico').hide();");
+        addMessage("MÃ©dico cadastrado com sucesso!");
+    }
 
-	public ArrayList<Usuario> getItens() {
-		return itens;
-	}
+    public void editarMedico() {
+        new UsuarioService(new ClinicaEntityManager("ClinicaPU")).edit(usuarioSelecionado);
+        RequestContext context = RequestContext.getCurrentInstance();
+        context.execute("PF('dialogVisualizaMedico').hide();");
+        addMessage("MÃ©dico editado com sucesso!");
+    }
 
-	public void setItens(ArrayList<Usuario> itens) {
-		this.itens = itens;
-	}
+    public void deletarMedico() {
+        new UsuarioService(new ClinicaEntityManager("ClinicaPU")).remove(usuarioSelecionado);
+    }
+    
+//    public void listarMedicos() {
+//        new MedicoService(new ClinicaEntityManager("ClinicaPU")).findAll();
+//    }
 
-	public ArrayList<Usuario> getItensFiltrados() {
-		return itensFiltrados;
-	}
+    public void addMessage(String summary) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, null);
+        FacesContext.getCurrentInstance().addMessage(null, message);
+    }
 
-	public void setItensFiltrados(ArrayList<Usuario> itensFiltrados) {
-		this.itensFiltrados = itensFiltrados;
-	}
+    public void onRowSelect(SelectEvent event) {
+    }
 
-	public ArrayList<Usuario> getItensMedico() {
-		return itensMedico;
-	}
+    public Usuario getMedicoCadastrado() {
+        return usuarioCadastrado;
+    }
 
-	public void setItensMedico(ArrayList<Usuario> itensMedico) {
-		this.itensMedico = itensMedico;
-	}
+    public void setUsuarioCadastrado(Usuario medicoCadastrado) {
+        this.usuarioCadastrado = medicoCadastrado;
+    }
 
-	@PostConstruct // depois mostra na tela.
-	public void prepararPesquisa() {
-		try {
+    public Usuario getMedicoSelecionado() {
+        return usuarioSelecionado;
+    }
 
-			UsuarioDAO cDAO = new UsuarioDAO();
-			itens = (ArrayList<Usuario>) cDAO.listar();
-			itensMedico = (ArrayList<Usuario>) cDAO.listarTipo30();
+    public void setMedicoSelecionado(Usuario medicoSelecionado) {
+        this.usuarioSelecionado = medicoSelecionado;
+    }
 
-		} catch (SQLException e) {
+    public List<Usuario> getMedicos() {
+        return usuario;
+    }
 
-			e.printStackTrace(); // rastreia o erro.
-			JSFUtil.adicionarMensagemErro(e.getMessage());
-		}
+    public void setMedicos(List<Usuario> medicos) {
+        this.usuario = medicos;
+    }
 
-	}
+    public List<Usuario> getMedicosFiltrados() {
+        return usuarioFiltrados;
+    }
 
-	public void prepararNovoUsuario() {
-		usuario = new Usuario();
-	}
-
-	public void Secretaria() {
-
-		try {
-			usuario.setTipoUsuario(10);
-			UsuarioDAO dao = new UsuarioDAO();
-			dao.salvar(usuario);
-
-			itens = (ArrayList<Usuario>) dao.listar();
-
-			JSFUtil.adicionarMensagemSucesso("Secretario salvo com sucesso.");
-
-		} catch (SQLException ex) {
-			ex.printStackTrace();
-			JSFUtil.adicionarMensagemErro(ex.getMessage());
-		}
-
-	}
-
-	public void Medico() {
-
-		try {
-			usuario.setTipoUsuario(30);
-			UsuarioDAO dao = new UsuarioDAO();
-			dao.salvar(usuario);
-
-			itensMedico = (ArrayList<Usuario>) dao.listarTipo30();
-
-			JSFUtil.adicionarMensagemSucesso("Medico salvo com sucesso.");
-
-		} catch (SQLException ex) {
-			ex.printStackTrace();
-			JSFUtil.adicionarMensagemErro(ex.getMessage());
-		}
-
-	}
-
-	public void novoUsuario() {
-		try {
-
-			UsuarioDAO dao = new UsuarioDAO();
-			dao.salvar(usuario);
-
-			itens = (ArrayList<Usuario>) dao.listar();
-
-			JSFUtil.adicionarMensagemSucesso("Secretario salvo com sucesso.");
-
-		} catch (SQLException ex) {
-			ex.printStackTrace();
-			JSFUtil.adicionarMensagemErro(ex.getMessage());
-		}
-
-	}
-
-	public void novoUsuarioMedico() {
-		try {
-
-			UsuarioDAO dao = new UsuarioDAO();
-			dao.salvar(usuario);
-
-			itensMedico = (ArrayList<Usuario>) dao.listarTipo30();
-
-			JSFUtil.adicionarMensagemSucesso("Medico salvo com sucesso.");
-
-		} catch (SQLException ex) {
-			ex.printStackTrace();
-			JSFUtil.adicionarMensagemErro(ex.getMessage());
-		}
-
-	}
-
-	public void excluir() {
-
-		try {
-			UsuarioDAO dao = new UsuarioDAO();
-			dao.excluir(usuario);
-
-			itens = (ArrayList<Usuario>) dao.listar();
-			itensMedico = (ArrayList<Usuario>) dao.listarTipo30();
-			// itens = new ListDataModel<Paciente>(lista);
-
-			JSFUtil.adicionarMensagemSucesso("Secretario removido com sucesso.");
-		} catch (SQLException ex) {
-
-			ex.printStackTrace();
-			JSFUtil.adicionarMensagemErro(ex.getMessage());
-		}
-
-	}
-
-	public void editar() {
-
-		try {
-			usuario.setTipoUsuario(10);
-
-			UsuarioDAO dao = new UsuarioDAO();
-
-			dao.editar(usuario);
-
-			itens = (ArrayList<Usuario>) dao.listar();
-
-			JSFUtil.adicionarMensagemSucesso("Secretario editado com sucesso.");
-
-		} catch (SQLException ex) {
-			ex.printStackTrace();
-			JSFUtil.adicionarMensagemErro(ex.getMessage());
-		}
-
-	}
-
-	public void editarMedico() {
-
-		try {
-			usuario.setTipoUsuario(30);
-
-			UsuarioDAO dao = new UsuarioDAO();
-
-			dao.editar(usuario);
-
-			itensMedico = (ArrayList<Usuario>) dao.listarTipo30();
-
-			JSFUtil.adicionarMensagemSucesso("Medico editado com sucesso.");
-
-		} catch (SQLException ex) {
-			ex.printStackTrace();
-			JSFUtil.adicionarMensagemErro(ex.getMessage());
-		}
-
-	}
+    public void setMedicosFiltrados(List<Usuario> medicosFiltrados) {
+        this.usuarioFiltrados = medicosFiltrados;
+    }
 
 }
