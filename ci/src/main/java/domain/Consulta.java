@@ -10,6 +10,8 @@ public class Consulta {
 	private Date data;
 	private Date hora;
 
+	//Teste
+	
 	public Long getIdConsulta() {
 		return idConsulta;
 	}
