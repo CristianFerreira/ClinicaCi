@@ -2,8 +2,23 @@ package main.java.domain;
 
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="pacientes")
 public class Paciente {
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name="id_paciente")
 	private Long codigo;
+	
+	
 	private String nome;
 	private String telefone;
 	private Date dataNasc;
@@ -56,5 +71,11 @@ public class Paciente {
 
 	public void setDataNasc(Date dataNasc) {
 		this.dataNasc = dataNasc;
+	}
+
+	@Override
+	public String toString() {
+		return "Paciente [codigo=" + codigo + ", nome=" + nome + ", telefone=" + telefone + ", dataNasc=" + dataNasc
+				+ ", endereco=" + endereco + ", observacao=" + observacao + "]";
 	}
 }

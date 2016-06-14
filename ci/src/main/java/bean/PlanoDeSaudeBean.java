@@ -6,7 +6,6 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
-import main.java.DAO.PlanoDeSaudeDAO;
 import main.java.domain.PlanoDeSaude;
 import main.java.service.PlanoDeSaudeService;
 import main.java.util.ClinicaEntityManager;

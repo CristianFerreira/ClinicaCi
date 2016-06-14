@@ -10,6 +10,9 @@ import javax.faces.bean.ViewScoped;
 
 import main.java.DAO.PacienteDAO;
 import main.java.domain.Paciente;
+import main.java.service.PacienteService;
+import main.java.service.PlanoDeSaudeService;
+import main.java.util.ClinicaEntityManager;
 import main.java.util.JSFUtil;
 
 @ManagedBean(name = "MBPaciente")
@@ -21,6 +24,8 @@ public class PacienteBean implements Serializable {
 	private Paciente paciente;
 	private ArrayList<Paciente> itens;
 	private ArrayList<Paciente> itensFiltrados;
+	private PacienteService pacienteService = new PacienteService(new ClinicaEntityManager("ClinicaPU"));
+	
 
 	public Paciente getPaciente() {
 		return paciente;
@@ -49,10 +54,7 @@ public class PacienteBean implements Serializable {
 	@PostConstruct // depois mostra na tela.
 	public void prepararPesquisa() {
 		try {
-			PacienteDAO cDAO = new PacienteDAO();
-			// List<Paciente> lista;
-			itens = (ArrayList<Paciente>) cDAO.listar();
-			// convertendo arraylist para listDataModel para ser exibido na tela
+			itens = (ArrayList<Paciente>) pacienteService.findAll();
 
 		} catch (SQLException e) {
 
@@ -69,10 +71,9 @@ public class PacienteBean implements Serializable {
 	public void novoPaciente() {
 		try {
 
-			PacienteDAO dao = new PacienteDAO();
-			dao.salvar(paciente);
+			pacienteService.save(paciente);
 
-			itens = (ArrayList<Paciente>) dao.listar();
+			itens = (ArrayList<Paciente>) pacienteService.findAll();
 
 			JSFUtil.adicionarMensagemSucesso("Paciente salvo com sucesso.");
 
@@ -90,10 +91,9 @@ public class PacienteBean implements Serializable {
 	public void excluir() {
 
 		try {
-			PacienteDAO dao = new PacienteDAO();
-			dao.excluir(paciente);
+			pacienteService.remove(paciente);
 
-			itens = (ArrayList<Paciente>) dao.listar();
+			itens = (ArrayList<Paciente>) pacienteService.findAll();
 			// itens = new ListDataModel<Paciente>(lista);
 
 			JSFUtil.adicionarMensagemSucesso("Paciente removido com sucesso.");
@@ -113,10 +113,9 @@ public class PacienteBean implements Serializable {
 
 		try {
 
-			PacienteDAO dao = new PacienteDAO();
-			dao.editar(paciente);
+			pacienteService.edit(paciente);
 
-			itens = (ArrayList<Paciente>) dao.listar();
+			itens = (ArrayList<Paciente>) pacienteService.findAll();
 			// itens = new ListDataModel<Paciente>(lista);
 
 			JSFUtil.adicionarMensagemSucesso("Paciente editado com sucesso.");
