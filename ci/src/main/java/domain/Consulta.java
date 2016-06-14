@@ -2,15 +2,41 @@ package main.java.domain;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="consulta")
 public class Consulta {
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name="id_consulta")
 	private Long idConsulta;
-	private Long idMedico;
-	private Long idPaciente;
-	private Long idPlano;
+	
+	@ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario", nullable = false)
+	private Usuario medico;
+	
+	@ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_paciente", referencedColumnName = "id_paciente", nullable = false)
+	private Paciente paciente;
+	
+	@ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_plano", referencedColumnName = "id_plano")
+	private PlanoDeSaude plano;
+	
 	private Date data;
 	private Date hora;
 
 	//Teste
+	
 	
 	public Long getIdConsulta() {
 		return idConsulta;
@@ -18,30 +44,6 @@ public class Consulta {
 
 	public void setIdConsulta(Long idConsulta) {
 		this.idConsulta = idConsulta;
-	}
-
-	public Long getIdMedico() {
-		return idMedico;
-	}
-
-	public void setIdMedico(Long idMedico) {
-		this.idMedico = idMedico;
-	}
-
-	public Long getIdPaciente() {
-		return idPaciente;
-	}
-
-	public void setIdPaciente(Long idPaciente) {
-		this.idPaciente = idPaciente;
-	}
-
-	public Long getIdPlano() {
-		return idPlano;
-	}
-
-	public void setIdPlano(Long idPlano) {
-		this.idPlano = idPlano;
 	}
 
 	public Date getData() {
@@ -58,5 +60,29 @@ public class Consulta {
 
 	public void setHora(Date hora) {
 		this.hora = hora;
+	}
+
+	public Usuario getMedico() {
+		return medico;
+	}
+
+	public void setMedico(Usuario medico) {
+		this.medico = medico;
+	}
+
+	public Paciente getPaciente() {
+		return paciente;
+	}
+
+	public void setPaciente(Paciente paciente) {
+		this.paciente = paciente;
+	}
+
+	public PlanoDeSaude getPlano() {
+		return plano;
+	}
+
+	public void setPlano(PlanoDeSaude plano) {
+		this.plano = plano;
 	}
 }

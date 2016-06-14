@@ -6,8 +6,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
 	template="/templates/modeloSistema.xhtml">
-
-
+	
 	<ui:define name="menu">
 		<ui:include src="/includes/menuPrincipal.xhtml" />
 	</ui:define>
@@ -15,14 +14,14 @@
 	<ui:define name="conteudo">
 		<h:form>
 			<p:dataTable emptyMessage="Nenhum registro encontrado."
-				value="#{MBCliente.itens}" var="item" paginator="true" rows="20">
+				value="#{MBConsulta.itens}" var="item" paginator="true" rows="20">
 
 				<f:facet name="header">
 					Tabela de Consultas
 				</f:facet>
-				<p:column headerText="Código" sortBy="#{item.codigo}"
-					filterBy="#{item.codigo}">
-					<h:outputText value="#{item.codigo}" />
+				<p:column headerText="idConsulta" sortBy="#{item.idConsulta}"
+					filterBy="#{item.idConsulta}">
+					<h:outputText value="#{item.idConsulta}" />
 				</p:column>
 
 				<p:column headerText="Paciente" sortBy="#{item.nome}"
@@ -101,8 +100,6 @@
 
 					<h:panelGrid columns="4" cellpadding="2">
 
-
-
 						<p:outputLabel value="Data:" />
 						<p:inputMask mask="99/99/9999" size="16" />
 
@@ -126,11 +123,7 @@
 				</p:panel>
 			</h:form>
 
-
 		</p:dialog>
-
-
-
 
 		<p:dialog widgetVar="searchPaciente" closable="true" draggable="false"
 			resizable="false" modal="true" appendTo="@(body)"
