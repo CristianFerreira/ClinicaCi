@@ -34,10 +34,19 @@ public class Consulta {
 	
 	private Date data;
 	private Date hora;
+	private String observacoes;
 
 	//Teste
 	
 	
+	public String getObservacoes() {
+		return observacoes;
+	}
+
+	public void setObservacoes(String observacoes) {
+		this.observacoes = observacoes;
+	}
+
 	public Long getIdConsulta() {
 		return idConsulta;
 	}

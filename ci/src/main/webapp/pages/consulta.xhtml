@@ -6,47 +6,55 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
 	template="/templates/modeloSistema.xhtml">
-	
+
 	<ui:define name="menu">
 		<ui:include src="/includes/menuPrincipal.xhtml" />
 	</ui:define>
 
 	<ui:define name="conteudo">
-		<h:form>
-			<p:dataTable emptyMessage="Nenhum registro encontrado."
-				value="#{MBConsulta.itens}" var="item" paginator="true" rows="20">
+		<h:form id="formConsulta">
+			<p:dataTable id="tblConsulta" widgetVar="tabelaConsulta"
+				emptyMessage="Nenhum registro encontrado."
+				value="#{MBConsulta.itens}" var="item"
+				filteredValue="#{MBPaciente.itensFiltrados}" paginator="true"
+				rows="20">
 
 				<f:facet name="header">
 					Tabela de Consultas
 				</f:facet>
-				<p:column headerText="idConsulta" sortBy="#{item.idConsulta}"
+				<p:column headerText="Id Consulta" sortBy="#{item.idConsulta}"
 					filterBy="#{item.idConsulta}">
 					<h:outputText value="#{item.idConsulta}" />
 				</p:column>
 
-				<p:column headerText="Paciente" sortBy="#{item.nome}"
-					filterBy="#{item.nome}">
-					<h:outputText value="#{item.nome}" />
+				<p:column headerText="Paciente" sortBy="#{item.paciente}"
+					filterBy="#{item.paciente}">
+					<h:outputText value="#{item.paciente}" />
 				</p:column>
 
-				<p:column headerText="Medico" sortBy="#{item.nome}"
-					filterBy="#{item.nome}">
-					<h:outputText value="#{item.nome}" />
+				<p:column headerText="Medico" sortBy="#{item.medico}"
+					filterBy="#{item.medico}">
+					<h:outputText value="#{item.medico}" />
 				</p:column>
 
-				<p:column headerText="Plano de Saúde" sortBy="#{item.nome}"
-					filterBy="#{item.nome}">
-					<h:outputText value="#{item.nome}" />
+				<p:column headerText="Plano de Saúde" sortBy="#{item.plano}"
+					filterBy="#{item.plano}">
+					<h:outputText value="#{item.plano}" />
 				</p:column>
 
-				<p:column headerText="Data " sortBy="#{item.nome}"
-					filterBy="#{item.nome}">
-					<h:outputText value="#{item.nome}" />
+				<p:column headerText="Data " sortBy="#{item.data}"
+					filterBy="#{item.data}">
+					<h:outputText value="#{item.data}" />
 				</p:column>
 
-				<p:column headerText="Horário" sortBy="#{item.nome}"
-					filterBy="#{item.nome}">
-					<h:outputText value="#{item.nome}" />
+				<p:column headerText="Horário" sortBy="#{item.hora}"
+					filterBy="#{item.hora}">
+					<h:outputText value="#{item.hora}" />
+				</p:column>
+
+				<p:column headerText="Observações" sortBy="#{item.observacoes}"
+					filterBy="#{item.observacoes}">
+					<h:outputText value="#{item.observacoes}" />
 				</p:column>
 
 				<p:column style="width:32px;text-align: center">
@@ -58,7 +66,9 @@
 
 				<f:facet name="footer">
 					<p:commandButton value="Novo Cadastro"
-						onclick="PF('dlgConsultaNova').show();" />
+						actionListener="#{MBConsulta.prepararNovaConsulta}"
+						oncomplete="PF('dlgConsultaNova').show();"
+						update=":formNovaConsulta:pnlNovaConsulta" />
 
 				</f:facet>
 
@@ -69,58 +79,55 @@
 			draggable="false" resizable="false" modal="true" appendTo="@(body)"
 			header="Novo Cadastro">
 
-			<h:form id="form">
-				<p:panel id="panel">
-					<p:messages id="msgs" />
-					<h:panelGrid columns="3" cellpadding="2">
+			<h:form id="formNovaConsulta">
 
-						<h:outputLabel for="nomePaciente" value="Paciente:" />
-						<p:inputText id="nomePaciente" value="#{BeanCliente.medico.nome}"
-							required="true" label="Nome" requiredMessage="NOME é obrigatorio"
-							size="30" maxlength="45" />
+				<h:panelGrid id="pnlNovaConsulta" columns="2" cellpadding="2">
 
-						<p:commandButton oncomplete="PF('searchPaciente').show()"
-							icon="ui-icon-search" title="View" />
+					<h:outputLabel for="nomePaciente" value="Paciente:" />
+					<p:selectOneMenu id="nomePaciente"
+						value="#{MBConsulta.consulta.paciente}" style="width:125px">
+						<f:selectItems value="#{MBConsulta.listaPacientes}" var="paciente"
+							itemLabel="#{paciente.nome}" />
+					</p:selectOneMenu>
 
-						<h:outputLabel for="nomeMedico" value="Medico:" />
-						<p:inputText id="nomeMedico" value="#{BeanCliente.medico.nome}"
-							required="true" label="Nome" requiredMessage="NOME é obrigatorio"
-							size="30" maxlength="45" />
-						<p:commandButton oncomplete="PF('searchMedico').show()"
-							icon="ui-icon-search" title="View" />
 
-						<h:outputLabel for="nomePlano" value="Plano de Saude:" />
-						<p:inputText id="nomePlano" value="#{BeanCliente.medico.nome}"
-							required="true" label="Nome" requiredMessage="NOME é obrigatorio"
-							size="30" maxlength="45" />
-						<p:commandButton oncomplete="PF('searchPlanoDeSaude').show()"
-							icon="ui-icon-search" title="View" />
+					<h:outputLabel for="nomeMedico" value="Medico:" />
+					<p:selectOneMenu id="nomeMedico"
+						value="#{MBConsulta.consulta.medico}" style="width:125px">
+						<f:selectItems value="#{MBConsulta.listaUsuarios}" var="usuario"
+							itemLabel="#{usuario.nome}" />
+					</p:selectOneMenu>
 
-					</h:panelGrid>
+					<h:outputLabel for="nomePlano" value="Plano de Saude:" />
+					<p:selectOneMenu id="nomePlano"
+						value="#{MBConsulta.consulta.plano}" style="width:125px">
+						<f:selectItems value="#{MBConsulta.listaPlanos}" var="plano"
+							itemLabel="#{plano.nome}" />
+					</p:selectOneMenu>
 
-					<h:panelGrid columns="4" cellpadding="2">
 
-						<p:outputLabel value="Data:" />
-						<p:inputMask mask="99/99/9999" size="16" />
 
-						<h:outputLabel value="Horário:  " />
-						<p:inputMask mask="99:99" size="16" />
-					</h:panelGrid>
+					<p:outputLabel value="Data:" />
+					<p:inputMask mask="99/99/9999" size="16"
+						value="#{MBConsulta.consulta.data}" />
 
-					<h:panelGrid columns="1" cellpadding="2">
-						<p:outputLabel value="Observações: " />
-						<p:inputTextarea rows="6" cols="55" />
+					<h:outputLabel value="Horário:  " />
+					<p:inputMask mask="99:99" size="16"
+						value="#{MBConsulta.consulta.hora}" />
 
-					</h:panelGrid>
+				</h:panelGrid>
+			
 
-					<h:panelGrid columns="2">
-						<p:commandButton id="btn" value="Salvar" update="panel"
-							actionListener="#{BeanCliente.Salvar}" />
+				<h:panelGrid columns="2">
+					<p:commandButton id="btn" value="Salvar"
+						actionListener="#{MBConsulta.novaConsulta}"
+						oncomplete="PF('dlgConsultaNova').hide(); PF('tabelaConsulta').clearFilters();"
+						update=":formConsulta:tblConsulta :msgGlobal" />
 						<p:commandButton value="FECHAR"
-							onclick="PF('dlgConsultaNova').hide();" />
-					</h:panelGrid>
+						onclick="PF('dlgConsultaNova').hide();" />
+				</h:panelGrid>
 
-				</p:panel>
+
 			</h:form>
 
 		</p:dialog>
