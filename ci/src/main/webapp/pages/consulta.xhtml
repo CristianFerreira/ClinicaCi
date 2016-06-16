@@ -87,7 +87,7 @@
 					<p:selectOneMenu id="nomePaciente"
 						value="#{MBConsulta.consulta.paciente}" style="width:125px">
 						<f:selectItems value="#{MBConsulta.listaPacientes}" var="paciente"
-							itemLabel="#{paciente.nome}" />
+							itemValue="#{paciente}" itemLabel="#{paciente.nome}" />
 					</p:selectOneMenu>
 
 
@@ -95,14 +95,14 @@
 					<p:selectOneMenu id="nomeMedico"
 						value="#{MBConsulta.consulta.medico}" style="width:125px">
 						<f:selectItems value="#{MBConsulta.listaUsuarios}" var="usuario"
-							itemLabel="#{usuario.nome}" />
+							itemValue="#{usuario}" itemLabel="#{usuario.nome}" />
 					</p:selectOneMenu>
 
 					<h:outputLabel for="nomePlano" value="Plano de Saude:" />
 					<p:selectOneMenu id="nomePlano"
 						value="#{MBConsulta.consulta.plano}" style="width:125px">
 						<f:selectItems value="#{MBConsulta.listaPlanos}" var="plano"
-							itemLabel="#{plano.nome}" />
+							itemValue="#{plano}" itemLabel="#{plano.nome}" />
 					</p:selectOneMenu>
 
 
@@ -116,14 +116,14 @@
 						value="#{MBConsulta.consulta.hora}" />
 
 				</h:panelGrid>
-			
+
 
 				<h:panelGrid columns="2">
 					<p:commandButton id="btn" value="Salvar"
 						actionListener="#{MBConsulta.novaConsulta}"
 						oncomplete="PF('dlgConsultaNova').hide(); PF('tabelaConsulta').clearFilters();"
 						update=":formConsulta:tblConsulta :msgGlobal" />
-						<p:commandButton value="FECHAR"
+					<p:commandButton value="FECHAR"
 						onclick="PF('dlgConsultaNova').hide();" />
 				</h:panelGrid>
 
